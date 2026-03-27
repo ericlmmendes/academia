@@ -24,7 +24,7 @@
     }
     
     .nav-icon { width: 24px; height: 24px; stroke-width: 2.5; transition: all 0.2s ease; }
-    .nav-btn.active { color: #34d399; } /* Emerald 400 */
+    .nav-btn.active { color: #34d399; }
     .nav-btn.active .nav-icon { transform: translateY(-2px); }
     
     .timer { 
@@ -60,7 +60,6 @@
       width: 40px; height: 40px; object-fit: cover; border-radius: 9999px; border: 2px solid #10b981;
     }
 
-    /* Custom Scrollbar for inner elements */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 10px; }
@@ -74,7 +73,8 @@
   <!-- HEADER -->
   <header class="fixed top-0 left-0 right-0 bg-zinc-900/80 backdrop-blur-xl border-b border-zinc-800 z-50 safe-top">
     <div class="max-w-md mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-3">
+      <!-- LINK PARA A LOJA AQUI -->
+      <div onclick="window.location.href='loja.html'" class="flex items-center gap-3 cursor-pointer active:scale-95 transition-transform">
         <div class="w-10 h-10 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
           <i class="fa-solid fa-dumbbell text-white text-lg"></i>
         </div>
@@ -94,7 +94,6 @@
   <div id="login-modal" class="fixed inset-0 bg-zinc-950/90 backdrop-blur-sm flex items-center justify-center z-[100] p-4 hidden">
     <div class="bg-zinc-900 p-8 rounded-[2rem] w-full max-w-sm border border-zinc-800 shadow-2xl modal-enter relative overflow-hidden">
       <div class="absolute -top-20 -right-20 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl"></div>
-      
       <div class="flex flex-col items-center mb-8 relative z-10">
         <div class="w-20 h-20 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center shadow-xl shadow-emerald-500/20 mb-4">
           <i class="fa-solid fa-dumbbell text-white text-4xl"></i>
@@ -102,7 +101,6 @@
         <h2 class="logo-font text-4xl font-bold tracking-tighter text-white">EVO FITNESS</h2>
         <p class="text-emerald-400 text-xs font-semibold mt-1 tracking-[3px]">EVOLUA SUA FORMA</p>
       </div>
-      
       <div class="relative z-10 space-y-4">
         <div>
           <label class="text-xs text-zinc-400 ml-1 mb-1 block">Como devemos te chamar?</label>
@@ -115,7 +113,6 @@
         <button onclick="realizarLogin()" class="w-full bg-emerald-600 hover:bg-emerald-500 py-4 mt-4 rounded-2xl font-bold text-lg shadow-lg shadow-emerald-600/20 transition active:scale-[0.97]">
           Começar a Evolução
         </button>
-        <p class="text-center text-[10px] text-zinc-500 uppercase tracking-wider mt-4">Dados salvos apenas neste dispositivo</p>
       </div>
     </div>
   </div>
@@ -191,20 +188,78 @@
         <p id="dica-do-dia" class="text-zinc-300 text-sm leading-relaxed"></p>
       </div>
 
-      <div>
+      <!-- TREINO RÁPIDO -->
+      <div class="mb-8">
         <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-bolt text-yellow-400"></i> Treino Rápido</h3>
         <button onclick="iniciarTreinoRapido(3)" class="w-full bg-zinc-900 p-5 rounded-3xl text-left card-hover border border-zinc-800 transition relative overflow-hidden group">
           <div class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-emerald-600/20 to-transparent"></div>
           <div class="flex items-center justify-between relative z-10">
             <div>
               <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2 py-1 rounded-md mb-2 inline-block">INICIANTE</span>
-              <h3 class="text-xl font-bold text-white group-hover:text-emerald-400 transition-colors">Full Body Starter</h3>
+              <h3 class="text-xl font-bold text-white group-hover:text-emerald-400 transition-colors">Iniciante de corpo inteiro</h3>
               <p class="text-sm text-zinc-400 mt-1"><i class="fa-regular fa-clock mr-1"></i> 45 min • 4 Exercícios</p>
             </div>
             <i class="fa-solid fa-chevron-right text-zinc-600 group-hover:text-emerald-400 transition-colors"></i>
           </div>
         </button>
       </div>
+
+      <!-- NUTRIÇÃO E VITAMINAS -->
+      <div class="mb-8">
+        <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-apple-whole text-red-500"></i> Nutrição para Crescer e Secar</h3>
+        <div class="space-y-3">
+          
+          <!-- Pré-treino -->
+          <div class="bg-zinc-900 p-5 rounded-3xl border border-zinc-800">
+            <h4 class="text-sm font-bold text-yellow-400 mb-1">🟡 Pré-treino (energia e desempenho)</h4>
+            <p class="text-[10px] text-zinc-500 mb-3 uppercase tracking-wider">30–90 min antes</p>
+            <ul class="text-sm text-zinc-300 space-y-1 mb-3">
+              <li>• Banana + aveia</li>
+              <li>• Pão integral + pasta de amendoim</li>
+              <li>• Iogurte + mel + granola</li>
+              <li>• Tapioca + queijo ou frango</li>
+              <li>• Batata doce + ovo</li>
+            </ul>
+            <div class="bg-yellow-400/10 text-yellow-400 text-xs px-3 py-2 rounded-xl font-medium">
+              👉 Foco: carboidrato + um pouco de proteína
+            </div>
+          </div>
+          
+          <!-- Durante -->
+          <div class="bg-zinc-900 p-5 rounded-3xl border border-zinc-800">
+            <h4 class="text-sm font-bold text-blue-400 mb-1">🔵 Durante o treino (hidratação e resistência)</h4>
+            <p class="text-[10px] text-zinc-500 mb-3 uppercase tracking-wider">Principalmente se o treino durar +60 min</p>
+            <ul class="text-sm text-zinc-300 space-y-1 mb-3">
+              <li>• Água (essencial 💧)</li>
+              <li>• Água + eletrólitos</li>
+              <li>• Água de coco</li>
+              <li>• Bebida isotônica</li>
+              <li>• BCAA (opcional)</li>
+            </ul>
+            <div class="bg-blue-400/10 text-blue-400 text-xs px-3 py-2 rounded-xl font-medium">
+              👉 Foco: hidratação + reposição de sais minerais
+            </div>
+          </div>
+          
+          <!-- Pós-treino -->
+          <div class="bg-zinc-900 p-5 rounded-3xl border border-zinc-800">
+            <h4 class="text-sm font-bold text-emerald-400 mb-1">🟢 Pós-treino (recuperação muscular)</h4>
+            <p class="text-[10px] text-zinc-500 mb-3 uppercase tracking-wider">Até 1h depois</p>
+            <ul class="text-sm text-zinc-300 space-y-1 mb-3">
+              <li>• Arroz + frango + legumes</li>
+              <li>• Shake de proteína + banana</li>
+              <li>• Omelete + pão integral</li>
+              <li>• Iogurte + frutas</li>
+              <li>• Carne + batata</li>
+            </ul>
+            <div class="bg-emerald-400/10 text-emerald-400 text-xs px-3 py-2 rounded-xl font-medium">
+              👉 Foco: proteína + carboidrato para recuperação
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
 
     <!-- TREINOS -->
@@ -262,6 +317,11 @@
         </button>
       </div>
 
+      <h3 class="text-xl font-bold mb-4">Somador (Total)</h3>
+      <div id="somador-medidas" class="bg-zinc-900 rounded-3xl p-5 border border-zinc-800 mb-8 grid grid-cols-4 gap-2 text-center">
+        <!-- Preenchido via JS -->
+      </div>
+
       <h3 class="text-xl font-bold mb-4">Histórico</h3>
       <div id="historico-medidas" class="space-y-3">
         <!-- Preenchido via JS -->
@@ -274,8 +334,12 @@
       
       <!-- NÍVEL -->
       <div class="bg-gradient-to-br from-emerald-900/40 to-zinc-900 rounded-3xl p-6 border border-emerald-500/30 mb-6 text-center relative overflow-hidden">
-        <div class="w-16 h-16 mx-auto bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center text-3xl mb-3 shadow-inner">
-          <i class="fa-solid fa-trophy"></i>
+        <div class="w-24 h-24 mx-auto mb-3 flex items-center justify-center relative">
+          <div class="absolute inset-0 bg-emerald-500/20 rounded-full blur-xl"></div>
+          <!-- Imagem da medalha de acordo com o nível -->
+          <img id="medalha-nivel" src="medalha/nivel_1.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" class="w-20 h-20 object-contain relative z-10 drop-shadow-2xl" alt="Medalha">
+          <!-- Fallback icon se não tiver imagem -->
+          <i class="fa-solid fa-trophy text-emerald-400 text-5xl hidden relative z-10"></i>
         </div>
         <p class="text-zinc-400 text-sm font-medium">Seu Nível Atual</p>
         <h3 id="nivel-atleta" class="text-2xl font-bold text-white mt-1">Nível 1 - Iniciante</h3>
@@ -351,6 +415,7 @@
     <!-- Conteúdo Treino -->
     <div class="flex-1 overflow-y-auto p-4 pb-40">
       <div id="imagens-exercicio" class="mb-6 rounded-3xl overflow-hidden bg-zinc-900 border border-zinc-800 aspect-video flex items-center justify-center">
+        <!-- Imagem será carregada via JS -->
         <i class="fa-solid fa-image text-4xl text-zinc-700"></i>
       </div>
       
@@ -419,17 +484,17 @@
     </div>
   </div>
 
-  <!-- MODAL CONFIRMAÇÃO TREINO -->
+  <!-- MODAL CONFIRMAÇÃO TREINO (CANCELAR) -->
   <div id="modal-confirmacao-treino" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[80] p-4">
     <div class="bg-zinc-900 p-6 rounded-3xl w-full max-w-sm modal-enter border border-zinc-800">
       <div class="w-12 h-12 rounded-full bg-red-500/20 text-red-500 flex items-center justify-center mx-auto mb-4 text-xl">
         <i class="fa-solid fa-triangle-exclamation"></i>
       </div>
       <h3 class="text-xl font-bold text-center text-white mb-2">Encerrar Treino?</h3>
-      <p class="text-center text-zinc-400 text-sm mb-6">Você ainda não concluiu todos os exercícios. Deseja mesmo sair?</p>
+      <p class="text-center text-zinc-400 text-sm mb-6">Você ainda não concluiu todos os exercícios. Deseja sair sem salvar o progresso?</p>
       <div class="flex gap-3">
-        <button onclick="cancelarFinalizacaoTreino()" class="flex-1 py-3 bg-zinc-800 hover:bg-zinc-700 rounded-xl font-semibold text-zinc-300 active:scale-95 transition">Voltar</button>
-        <button onclick="confirmarFinalizacaoTreino()" class="flex-1 py-3 bg-red-600 hover:bg-red-500 rounded-xl font-bold text-white active:scale-95 transition shadow-lg shadow-red-900/50">Sim, encerrar</button>
+        <button onclick="cancelarFinalizacaoTreino()" class="flex-1 py-3 bg-zinc-800 hover:bg-zinc-700 rounded-xl font-semibold text-zinc-300 active:scale-95 transition">Continuar Treino</button>
+        <button onclick="confirmarCancelamentoTreino()" class="flex-1 py-3 bg-red-600 hover:bg-red-500 rounded-xl font-bold text-white active:scale-95 transition shadow-lg shadow-red-900/50">Sair</button>
       </div>
     </div>
   </div>
@@ -511,7 +576,6 @@
     let intervaloTimer = null;
     let timerRestante = 0;
     let timerRodando = false;
-
     let dicaInterval = null;
 
     const dicasSaude = [
@@ -524,11 +588,11 @@
       "Consuma carboidratos antes do treino para ter mais energia."
     ];
 
-    // Banco de Treinos Expandido
+    // Banco de Treinos
     const treinosData = {
       0: { // INICIANTE
         0: [ // HOMEM
-          { nome: "Fase 1: Peito & Tríceps", duracao: "60 min", descansoPadrao: 60, exercicios: [
+          { nome: "Peito & Tríceps", duracao: "60 min", descansoPadrao: 60, exercicios: [
             { nome: "Supino Reto", series: 5, reps: "8" },
             { nome: "Supino Inclinado", series: 5, reps: "8" },
             { nome: "Peck Deck", series: 5, reps: "8" },
@@ -539,7 +603,7 @@
             { nome: "Tríceps Corda", series: 5, reps: "8" },
             { nome: "Abdominal", series: 3, reps: "20" }
           ]},
-          { nome: "Fase 1: Costas & Bíceps", duracao: "60 min", descansoPadrao: 60, exercicios: [
+          { nome: "Costas & Bíceps", duracao: "60 min", descansoPadrao: 60, exercicios: [
             { nome: "Puxada Frente Barra", series: 5, reps: "8" },
             { nome: "Puxada Atrás", series: 5, reps: "8" },
             { nome: "Puxada Invertida", series: 5, reps: "8" },
@@ -550,7 +614,7 @@
             { nome: "Rosca Scot", series: 4, reps: "8" },
             { nome: "Abdominal", series: 3, reps: "20" }
           ]},
-          { nome: "Fase 1: Perna & Ombro", duracao: "70 min", descansoPadrao: 60, exercicios: [
+          { nome: "Perna & Ombro", duracao: "70 min", descansoPadrao: 60, exercicios: [
             { nome: "Cadeira Extensora", series: 5, reps: "8" },
             { nome: "Agachamento Hack", series: 5, reps: "8" },
             { nome: "Mesa Flexora", series: 5, reps: "8" },
@@ -564,17 +628,6 @@
             { nome: "Encolhimento", series: 5, reps: "8" },
             { nome: "Abdominal", series: 3, reps: "20" }
           ]},
-          { nome: "Full Body Starter", duracao: "45 min", descansoPadrao: 60, exercicios: [
-            { nome: "Agachamento Goblet", series: 4, reps: "10-12" },
-            { nome: "Supino com Halteres", series: 4, reps: "10-12" },
-            { nome: "Remada Curvada", series: 4, reps: "10-12" },
-            { nome: "Prancha Abdominal", series: 3, reps: "45 seg" }
-          ]},
-          { nome: "Superiores Essencial", duracao: "40 min", descansoPadrao: 60, exercicios: [
-            { nome: "Flexão de Braço", series: 4, reps: "Falha" },
-            { nome: "Puxada Frontal", series: 4, reps: "12" },
-            { nome: "Desenvolvimento Halteres", series: 3, reps: "12" }
-          ]}
         ],
         1: [ // MULHER
           { nome: "Glúteos & Pernas", duracao: "40 min", descansoPadrao: 60, exercicios: [
@@ -598,7 +651,7 @@
             { nome: "Tríceps Corda", series: 4, reps: "12" }
           ]},
           { nome: "Costas & Bíceps", duracao: "50 min", descansoPadrao: 60, exercicios: [
-            { nome: "Barra Fixa (ou Graviton)", series: 4, reps: "8-10" },
+            { nome: "Barra Fixa", series: 4, reps: "8-10" },
             { nome: "Remada Baixa", series: 4, reps: "10" },
             { nome: "Pull Down", series: 3, reps: "12" },
             { nome: "Rosca Direta", series: 4, reps: "12" }
@@ -773,12 +826,9 @@
     }
 
     function mostrarPagina(pagina) {
-      // Ocultar todas
       document.querySelectorAll('[id^="pagina-"]').forEach(el => el.classList.add('hidden'));
-      // Mostrar alvo
       document.getElementById(`pagina-${pagina}`).classList.remove('hidden');
       
-      // Atualizar Nav Buttons
       document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.classList.remove('active', 'text-emerald-400');
         btn.classList.add('text-zinc-500');
@@ -802,7 +852,7 @@
       
       if (diff === 1) streakData.count++;
       else if (diff > 1) streakData.count = 1;
-      else streakData.count = 1; // primeiro acesso do dia
+      else streakData.count = 1;
       
       streakData.lastDate = hoje;
       localStorage.setItem('streakData', JSON.stringify(streakData));
@@ -830,6 +880,14 @@
     function renderizarExercicioAtual() {
       const ex = treinoAtual.exercicios[indiceExercicioAtual];
       if (!ex) return;
+      
+      // Converte o nome do exercício para o formato do arquivo (ex: Supino Reto -> supino_reto)
+      const imgName = ex.nome.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, '_');
+      
+      const imgContainer = document.getElementById('imagens-exercicio');
+      // Tentativa de carregar a imagem do diretório img, em caso de erro volta o ícone
+      imgContainer.innerHTML = `<img src="img/${imgName}.jpg" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'fa-solid fa-image text-4xl text-zinc-700\\'></i>';" class="w-full h-full object-cover" alt="${ex.nome}">`;
+
       document.getElementById('exercicio-atual').innerHTML = `
         <h4 class="text-3xl font-bold text-white tracking-tight">${ex.nome}</h4>
         <div class="inline-block mt-3 bg-emerald-950/50 border border-emerald-500/30 px-4 py-2 rounded-xl">
@@ -926,17 +984,20 @@
       document.getElementById('modal-confirmacao-treino').classList.add('hidden');
     }
 
-    function confirmarFinalizacaoTreino() {
+    // FUNÇÃO QUE APENAS ENCERRA O TREINO (Botão X) SEM CONCLUIR
+    function confirmarCancelamentoTreino() {
       document.getElementById('modal-confirmacao-treino').classList.add('hidden');
-      finalizarTreino();
+      document.getElementById('modal-treino').classList.add('hidden');
+      pausarTimer();
+      treinoAtual = null;
+      showToast("Treino encerrado", "info");
     }
 
     function finalizarTreino() {
-      // Extrair e somar um 'volume' falso baseado em series*reps para gamificação
       let volumeCalculado = 0;
       treinoAtual.exercicios.forEach(ex => {
         const reps = parseInt(ex.reps.split('-')[0]) || 10;
-        volumeCalculado += ex.series * reps * 5; // Peso médio hipotético de 5kg por rep para pontuar
+        volumeCalculado += ex.series * reps * 5; 
       });
 
       historicoTreinos.push({ 
@@ -952,7 +1013,6 @@
       pausarTimer();
       treinoAtual = null;
 
-      // Montar modal parabéns
       document.getElementById('parabens-streak').textContent = streakData.count + " Dias";
       document.getElementById('parabens-total').textContent = historicoTreinos.length + " Treinos";
       document.getElementById('modal-parabens').classList.remove('hidden');
@@ -1030,7 +1090,7 @@
     }
 
     function iniciarTreinoRapido(indice) {
-      const treino = treinosData[0][0][indice]; // Iniciante Homem
+      const treino = treinosData[0][0][indice];
       if (treino) iniciarTreino(treino);
     }
 
@@ -1049,10 +1109,9 @@
         peso, braco, peito, cintura, perna
       };
 
-      historicoMedidas.unshift(novaMedida); // Adiciona no início
+      historicoMedidas.unshift(novaMedida);
       localStorage.setItem('historicoMedidas', JSON.stringify(historicoMedidas));
       
-      // Limpar inputs
       ['peso','braco','peito','cintura','perna'].forEach(id => document.getElementById(`input-${id}`).value = '');
       
       showToast("Medidas salvas com sucesso!");
@@ -1061,10 +1120,29 @@
 
     function renderizarHistoricoMedidas() {
       const container = document.getElementById('historico-medidas');
+      const somadorContainer = document.getElementById('somador-medidas');
+
       if(historicoMedidas.length === 0) {
         container.innerHTML = `<p class="text-zinc-500 text-sm text-center py-4">Nenhum registro ainda.</p>`;
+        somadorContainer.innerHTML = `<p class="text-zinc-500 text-sm col-span-4 py-2">Sem dados para calcular</p>`;
         return;
       }
+
+      // Somador Total do Histórico
+      let sumBraco = 0, sumPeito = 0, sumCint = 0, sumCoxa = 0;
+      historicoMedidas.forEach(m => {
+        sumBraco += parseFloat(m.braco) || 0;
+        sumPeito += parseFloat(m.peito) || 0;
+        sumCint += parseFloat(m.cintura) || 0;
+        sumCoxa += parseFloat(m.perna) || 0;
+      });
+
+      somadorContainer.innerHTML = `
+        <div><p class="font-bold text-white text-lg">${sumBraco.toFixed(1)}</p><p class="text-[10px] text-zinc-500 uppercase tracking-wider mt-1">Braço</p></div>
+        <div><p class="font-bold text-white text-lg">${sumPeito.toFixed(1)}</p><p class="text-[10px] text-zinc-500 uppercase tracking-wider mt-1">Peito</p></div>
+        <div><p class="font-bold text-white text-lg">${sumCint.toFixed(1)}</p><p class="text-[10px] text-zinc-500 uppercase tracking-wider mt-1">Cint</p></div>
+        <div><p class="font-bold text-white text-lg">${sumCoxa.toFixed(1)}</p><p class="text-[10px] text-zinc-500 uppercase tracking-wider mt-1">Coxa</p></div>
+      `;
 
       container.innerHTML = historicoMedidas.map(m => `
         <div class="bg-zinc-900 p-4 rounded-2xl border border-zinc-800">
@@ -1091,7 +1169,7 @@
       historicoTreinos.forEach(t => volTotal += (t.volume || 0));
       document.getElementById('volume-total').innerHTML = `${volTotal}<span class="text-lg text-zinc-500 ml-1">kg</span>`;
 
-      // Calcular Nível (1 nível a cada 5 treinos)
+      // Calcular Nível
       const level = Math.floor(treinosFeitos / 5) + 1;
       const xpNoLevel = treinosFeitos % 5;
       const pct = (xpNoLevel / 5) * 100;
@@ -1102,6 +1180,12 @@
       document.getElementById('nivel-atleta').textContent = `Nível ${level} - ${tituloAtual}`;
       document.getElementById('xp-bar').style.width = `${pct}%`;
       document.getElementById('xp-texto').textContent = `${xpNoLevel}/5 treinos para o Nível ${level + 1}`;
+      
+      // Medalha Imagem
+      const medalhaImg = document.getElementById('medalha-nivel');
+      medalhaImg.src = `medalha/nivel_${level}.png`;
+      medalhaImg.style.display = 'block';
+      medalhaImg.nextElementSibling.style.display = 'none'; // oculta o ícone se a imagem carregar
     }
 
     // ====================== RESET ======================
@@ -1134,7 +1218,6 @@
       
       document.getElementById('streak-count').textContent = streakData.count;
 
-      // Lembrete visual
       setTimeout(() => {
         const treinadoHoje = historicoTreinos.some(t => t.data === new Date().toLocaleDateString('pt-BR'));
         if (usuario && !treinadoHoje) {
