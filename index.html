@@ -73,8 +73,7 @@
   <!-- HEADER -->
   <header class="fixed top-0 left-0 right-0 bg-zinc-900/80 backdrop-blur-xl border-b border-zinc-800 z-50 safe-top">
     <div class="max-w-md mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-      <!-- LINK PARA A LOJA AQUI -->
-      <div onclick="window.location.href='loja.html'" class="flex items-center gap-3 cursor-pointer active:scale-95 transition-transform">
+      <div class="flex items-center gap-3">
         <div class="w-10 h-10 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
           <i class="fa-solid fa-dumbbell text-white text-lg"></i>
         </div>
@@ -188,25 +187,45 @@
         <p id="dica-do-dia" class="text-zinc-300 text-sm leading-relaxed"></p>
       </div>
 
-      <!-- TREINO RÁPIDO -->
+      <!-- TREINO DE CÁRDIO -->
       <div class="mb-8">
-        <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-bolt text-yellow-400"></i> Treino Rápido</h3>
-        <button onclick="iniciarTreinoRapido(3)" class="w-full bg-zinc-900 p-5 rounded-3xl text-left card-hover border border-zinc-800 transition relative overflow-hidden group">
-          <div class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-emerald-600/20 to-transparent"></div>
-          <div class="flex items-center justify-between relative z-10">
-            <div>
-              <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2 py-1 rounded-md mb-2 inline-block">INICIANTE</span>
-              <h3 class="text-xl font-bold text-white group-hover:text-emerald-400 transition-colors">Iniciante de corpo inteiro</h3>
-              <p class="text-sm text-zinc-400 mt-1"><i class="fa-regular fa-clock mr-1"></i> 45 min • 4 Exercícios</p>
+        <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-heart-pulse text-red-500"></i> Treinos de Cárdio</h3>
+        <div class="space-y-3">
+          
+          <button onclick="iniciarCardio('Esteira (Caminhada/Corrida)', 30)" class="w-full bg-zinc-900 p-4 rounded-3xl text-left card-hover border border-zinc-800 transition relative overflow-hidden group flex items-center justify-between">
+            <div class="flex items-center gap-4 relative z-10">
+              <div class="w-12 h-12 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center text-xl shadow-inner">
+                <i class="fa-solid fa-person-running"></i>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-white group-hover:text-red-400 transition-colors">Esteira</h3>
+                <p class="text-xs text-zinc-400 mt-1"><i class="fa-regular fa-clock mr-1"></i> 30 min • Intensidade Média</p>
+              </div>
             </div>
-            <i class="fa-solid fa-chevron-right text-zinc-600 group-hover:text-emerald-400 transition-colors"></i>
-          </div>
-        </button>
+            <i class="fa-solid fa-chevron-right text-zinc-600 group-hover:text-red-400 transition-colors relative z-10"></i>
+            <div class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-red-600/10 to-transparent"></div>
+          </button>
+
+          <button onclick="iniciarCardio('Bicicleta Ergométrica', 30)" class="w-full bg-zinc-900 p-4 rounded-3xl text-left card-hover border border-zinc-800 transition relative overflow-hidden group flex items-center justify-between">
+            <div class="flex items-center gap-4 relative z-10">
+              <div class="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-xl shadow-inner">
+                <i class="fa-solid fa-person-biking"></i>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Bicicleta</h3>
+                <p class="text-xs text-zinc-400 mt-1"><i class="fa-regular fa-clock mr-1"></i> 30 min • Ritmo Moderado</p>
+              </div>
+            </div>
+            <i class="fa-solid fa-chevron-right text-zinc-600 group-hover:text-blue-400 transition-colors relative z-10"></i>
+            <div class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-blue-600/10 to-transparent"></div>
+          </button>
+
+        </div>
       </div>
 
       <!-- NUTRIÇÃO E VITAMINAS -->
       <div class="mb-8">
-        <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-apple-whole text-red-500"></i> Nutrição para Crescer e Secar</h3>
+        <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-apple-whole text-emerald-400"></i> Nutrição para Crescer e Secar</h3>
         <div class="space-y-3">
           
           <!-- Pré-treino -->
@@ -351,14 +370,14 @@
       </div>
 
       <div class="grid grid-cols-2 gap-4">
-        <div class="bg-zinc-900 rounded-3xl p-6 text-center border border-zinc-800">
+        <div class="bg-zinc-900 rounded-3xl p-6 text-center border border-zinc-800 shadow-sm">
           <i class="fa-solid fa-calendar-check text-emerald-500 text-2xl mb-2"></i>
           <p id="contagem-treinos" class="text-4xl font-bold text-white">0</p>
           <p class="text-xs text-zinc-400 mt-1 font-medium uppercase tracking-wider">Treinos Feitos</p>
         </div>
-        <div class="bg-zinc-900 rounded-3xl p-6 text-center border border-zinc-800">
+        <div class="bg-zinc-900 rounded-3xl p-6 text-center border border-zinc-800 shadow-sm">
           <i class="fa-solid fa-weight-hanging text-emerald-500 text-2xl mb-2"></i>
-          <p id="volume-total" class="text-4xl font-bold text-white">0<span class="text-lg text-zinc-500">kg</span></p>
+          <p id="volume-total" class="text-4xl font-bold text-white">0<span class="text-lg text-zinc-500 ml-1">kg</span></p>
           <p class="text-xs text-zinc-400 mt-1 font-medium uppercase tracking-wider">Volume Total</p>
         </div>
       </div>
@@ -384,6 +403,11 @@
       </div>
 
       <div class="mt-10 space-y-3 px-2">
+        <button onclick="window.location.href='loja.html'" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-4 px-6 rounded-2xl font-bold flex items-center justify-between shadow-lg shadow-emerald-900/20 transition mb-4">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-cart-shopping"></i> Loja EVO</span>
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </button>
+
         <button onclick="gerenciarNotificacoes()" class="w-full bg-zinc-900 hover:bg-zinc-800 py-4 px-6 rounded-2xl font-semibold flex items-center justify-between border border-zinc-800 transition">
           <span class="flex items-center gap-3"><i class="fa-solid fa-bell text-emerald-400"></i> Notificações</span>
           <i class="fa-solid fa-chevron-right text-zinc-600"></i>
@@ -415,7 +439,6 @@
     <!-- Conteúdo Treino -->
     <div class="flex-1 overflow-y-auto p-4 pb-40">
       <div id="imagens-exercicio" class="mb-6 rounded-3xl overflow-hidden bg-zinc-900 border border-zinc-800 aspect-video flex items-center justify-center">
-        <!-- Imagem será carregada via JS -->
         <i class="fa-solid fa-image text-4xl text-zinc-700"></i>
       </div>
       
@@ -522,16 +545,24 @@
         <h3 class="text-xl font-bold text-white">Notificações Push</h3>
       </div>
       
-      <div class="bg-zinc-950 p-4 rounded-2xl border border-zinc-800 mb-6 flex items-center justify-between">
-        <div>
-          <p class="font-bold text-sm text-white">Lembretes de Treino</p>
-          <p class="text-xs text-zinc-500 mt-1">Motivação diária para treinar</p>
+      <div class="bg-zinc-950 p-5 rounded-2xl border border-zinc-800 mb-6">
+        <div class="flex items-center justify-between mb-2">
+          <div>
+            <p class="font-bold text-sm text-white">Lembretes de Treino</p>
+            <p class="text-xs text-zinc-500 mt-1">Alerta sonoro na hora certa</p>
+          </div>
+          <button onclick="toggleNotificacoes()" id="btn-notif" class="px-4 py-2 rounded-xl text-xs font-bold transition-colors bg-emerald-600 text-white">
+            ATIVADO
+          </button>
         </div>
-        <button onclick="toggleNotificacoes()" id="btn-notif" class="px-4 py-2 rounded-xl text-xs font-bold transition-colors bg-emerald-600 text-white">
-          ATIVADO
-        </button>
+        
+        <div id="container-hora-notif" class="mt-4 pt-4 border-t border-zinc-800 flex items-center justify-between transition-all">
+          <p class="text-xs font-bold text-zinc-400">Notificar às:</p>
+          <input type="time" id="input-hora-notif" onchange="salvarHoraNotificacao()" class="bg-zinc-900 text-white border border-zinc-700 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-emerald-500 transition shadow-inner">
+        </div>
       </div>
-      <button onclick="fecharModalNotificacoes()" class="w-full bg-zinc-800 py-3 rounded-xl font-bold text-white">Pronto</button>
+      
+      <button onclick="fecharModalNotificacoes()" class="w-full bg-zinc-800 hover:bg-zinc-700 py-3 rounded-xl font-bold text-white transition active:scale-95">Pronto</button>
     </div>
   </div>
 
@@ -566,6 +597,7 @@
     let profilePhoto = localStorage.getItem('profilePhoto') || null;
     let streakData = JSON.parse(localStorage.getItem('streakData')) || { count: 0, lastDate: null };
     let notificacoesAtivadas = JSON.parse(localStorage.getItem('notificacoesAtivadas')) || false;
+    let horaNotificacao = localStorage.getItem('horaNotificacao') || "08:00";
     let historicoMedidas = JSON.parse(localStorage.getItem('historicoMedidas')) || [];
     let waterData = JSON.parse(localStorage.getItem('waterData')) || { date: null, amount: 0 };
 
@@ -629,16 +661,32 @@
             { nome: "Abdominal", series: 3, reps: "20" }
           ]},
         ],
-        1: [ // MULHER
-          { nome: "Glúteos & Pernas", duracao: "40 min", descansoPadrao: 60, exercicios: [
-            { nome: "Elevação Pélvica", series: 4, reps: "15" },
-            { nome: "Agachamento Sumô", series: 4, reps: "12" },
-            { nome: "Cadeira Abdutora", series: 3, reps: "15" }
+        1: [ // MULHER (TREINO MULHERES FASE 1)
+          { nome: "Perna", duracao: "60 min", descansoPadrao: 60, exercicios: [
+            { nome: "Cadeira Extensora", series: 5, reps: "8" },
+            { nome: "Agachamento Hack", series: 5, reps: "8" },
+            { nome: "Mesa Flexora", series: 5, reps: "8" },
+            { nome: "Leg Press Posição Base", series: 5, reps: "8" },
+            { nome: "Cadeira Adutora", series: 5, reps: "8" },
+            { nome: "Cadeira Abdutora", series: 5, reps: "8" },
+            { nome: "Máquina Glúteos", series: 5, reps: "20" },
+            { nome: "Agachamento Sumô Halteres", series: 5, reps: "8" },
+            { nome: "Panturrilha", series: 5, reps: "8" },
+            { nome: "Abdominal (3x por semana)", series: 5, reps: "FALHA" }
           ]},
-          { nome: "Superiores & Core", duracao: "35 min", descansoPadrao: 45, exercicios: [
-            { nome: "Puxada Alta", series: 3, reps: "15" },
-            { nome: "Elevação Lateral", series: 3, reps: "15" },
-            { nome: "Abdominal Supra", series: 4, reps: "20" }
+          { nome: "Superior", duracao: "50 min", descansoPadrao: 60, exercicios: [
+            { nome: "Puxada Frente Barra", series: 3, reps: "15" },
+            { nome: "Puxada Invertida", series: 3, reps: "15" },
+            { nome: "Remada Máquina", series: 3, reps: "15" },
+            { nome: "Peck Deck", series: 3, reps: "10" },
+            { nome: "Desenvolvimento", series: 4, reps: "10" },
+            { nome: "Elevação Lateral", series: 4, reps: "10" },
+            { nome: "Elevação Frontal", series: 3, reps: "10" },
+            { nome: "Rosca Direta Com Halteres", series: 4, reps: "10" },
+            { nome: "Rosca Martelo", series: 4, reps: "10" },
+            { nome: "Pulley Tríceps", series: 4, reps: "10" },
+            { nome: "Pulley Corda", series: 4, reps: "10" },
+            { nome: "Abdominal (3x por semana)", series: 5, reps: "FALHA" }
           ]}
         ]
       },
@@ -694,16 +742,21 @@
     let generoAtual = 0;
 
     // ====================== ÁGUA ======================
-    function initWaterTracker() {
+    function checkWaterReset() {
       const hoje = new Date().toLocaleDateString('pt-BR');
       if (waterData.date !== hoje) {
         waterData = { date: hoje, amount: 0 };
         localStorage.setItem('waterData', JSON.stringify(waterData));
       }
+    }
+
+    function initWaterTracker() {
+      checkWaterReset();
       atualizarUIWater();
     }
 
     function adicionarAgua() {
+      checkWaterReset(); // Checa se mudou o dia antes de adicionar
       waterData.amount += 250;
       if(waterData.amount > 2500) waterData.amount = 2500;
       localStorage.setItem('waterData', JSON.stringify(waterData));
@@ -723,43 +776,80 @@
     async function solicitarPermissaoNotificacoes() {
       if (!("Notification" in window)) return false;
       if (Notification.permission === "granted") {
-        notificacoesAtivadas = true;
-        localStorage.setItem('notificacoesAtivadas', true);
         return true;
       }
       const permission = await Notification.requestPermission();
-      notificacoesAtivadas = permission === "granted";
-      localStorage.setItem('notificacoesAtivadas', notificacoesAtivadas);
-      return notificacoesAtivadas;
+      return permission === "granted";
     }
 
     function toggleNotificacoes() {
       notificacoesAtivadas = !notificacoesAtivadas;
       localStorage.setItem('notificacoesAtivadas', notificacoesAtivadas);
       const btn = document.getElementById('btn-notif');
+      const containerHora = document.getElementById('container-hora-notif');
+      
       if(notificacoesAtivadas) {
         btn.textContent = "ATIVADO";
         btn.className = "px-4 py-2 rounded-xl text-xs font-bold transition-colors bg-emerald-600 text-white";
+        containerHora.style.display = "flex";
         showToast("Notificações ativadas");
+        solicitarPermissaoNotificacoes();
       } else {
         btn.textContent = "DESATIVADO";
         btn.className = "px-4 py-2 rounded-xl text-xs font-bold transition-colors bg-zinc-700 text-zinc-300";
+        containerHora.style.display = "none";
         showToast("Notificações desativadas", "info");
       }
+    }
+
+    function salvarHoraNotificacao() {
+      horaNotificacao = document.getElementById('input-hora-notif').value;
+      localStorage.setItem('horaNotificacao', horaNotificacao);
+      showToast("Horário salvo com sucesso!");
     }
 
     function gerenciarNotificacoes() {
       document.getElementById('modal-notificacoes').classList.remove('hidden');
       const btn = document.getElementById('btn-notif');
+      const containerHora = document.getElementById('container-hora-notif');
+      
       btn.textContent = notificacoesAtivadas ? "ATIVADO" : "DESATIVADO";
       btn.className = notificacoesAtivadas 
         ? "px-4 py-2 rounded-xl text-xs font-bold transition-colors bg-emerald-600 text-white" 
         : "px-4 py-2 rounded-xl text-xs font-bold transition-colors bg-zinc-700 text-zinc-300";
+      
+      document.getElementById('input-hora-notif').value = horaNotificacao;
+      containerHora.style.display = notificacoesAtivadas ? "flex" : "none";
     }
 
     function fecharModalNotificacoes() {
       document.getElementById('modal-notificacoes').classList.add('hidden');
     }
+
+    // LOOP DE CHECAGEM DO ALARME DO TREINO (RODA A CADA MINUTO)
+    setInterval(() => {
+      if(!notificacoesAtivadas) return;
+      const now = new Date();
+      const current = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+      const lastNotifDate = localStorage.getItem('lastNotifDate');
+      const today = now.toLocaleDateString('pt-BR');
+      
+      if(current === horaNotificacao && lastNotifDate !== today) {
+        localStorage.setItem('lastNotifDate', today);
+        
+        // Tenta tocar o áudio do alarme
+        try {
+          const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+          audio.play().catch(e => console.log('Erro ao tocar áudio', e));
+        } catch(e) {}
+        
+        showToast("Hora do seu Treino! 💪🔥", "info");
+        
+        if("Notification" in window && Notification.permission === "granted") {
+          new Notification("EVO FITNESS", { body: "Hora de treinar! Supere seus limites hoje. 💪🔥" });
+        }
+      }
+    }, 60000);
 
     // ====================== GERAIS ======================
     function atualizarDicaDoDia() {
@@ -877,15 +967,25 @@
       pausarTimerUI();
     }
 
+    function iniciarCardio(nome, duracao) {
+      const treinoCardio = {
+        nome: "Cárdio - " + nome,
+        duracao: duracao + " min",
+        descansoPadrao: 0,
+        exercicios: [
+          { nome: nome, series: 1, reps: duracao + " minutos de atividade" }
+        ]
+      };
+      iniciarTreino(treinoCardio);
+    }
+
     function renderizarExercicioAtual() {
       const ex = treinoAtual.exercicios[indiceExercicioAtual];
       if (!ex) return;
       
-      // Converte o nome do exercício para o formato do arquivo (ex: Supino Reto -> supino_reto)
       const imgName = ex.nome.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, '_');
       
       const imgContainer = document.getElementById('imagens-exercicio');
-      // Tentativa de carregar a imagem do diretório img, em caso de erro volta o ícone
       imgContainer.innerHTML = `<img src="img/${imgName}.jpg" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'fa-solid fa-image text-4xl text-zinc-700\\'></i>';" class="w-full h-full object-cover" alt="${ex.nome}">`;
 
       document.getElementById('exercicio-atual').innerHTML = `
@@ -984,7 +1084,6 @@
       document.getElementById('modal-confirmacao-treino').classList.add('hidden');
     }
 
-    // FUNÇÃO QUE APENAS ENCERRA O TREINO (Botão X) SEM CONCLUIR
     function confirmarCancelamentoTreino() {
       document.getElementById('modal-confirmacao-treino').classList.add('hidden');
       document.getElementById('modal-treino').classList.add('hidden');
@@ -1087,11 +1186,6 @@
             <p class="text-zinc-500 font-medium">Novos treinos chegando em breve...</p>
           </div>`;
       }
-    }
-
-    function iniciarTreinoRapido(indice) {
-      const treino = treinosData[0][0][indice];
-      if (treino) iniciarTreino(treino);
     }
 
     // ====================== MEDIDAS ======================
