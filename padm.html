@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin • EVO FITNESS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; background-color: #09090b; color: #f4f4f5; }
+    .logo-font { font-family: 'Space Grotesk', sans-serif; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 10px; }
+    .modal-enter { animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+    @keyframes modalPop {
+      0% { opacity: 0; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex selection:bg-emerald-500/30">
+
+  <!-- TELA DE LOGIN ADMIN -->
+  <div id="admin-login-screen" class="fixed inset-0 bg-zinc-950 z-[100] flex items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-zinc-800 p-8 rounded-3xl w-full max-w-sm shadow-2xl relative overflow-hidden">
+      <div class="absolute -top-20 -right-20 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl"></div>
+      
+      <div class="text-center mb-8 relative z-10">
+        <i class="fa-solid fa-user-shield text-5xl text-emerald-500 mb-4"></i>
+        <h2 class="logo-font text-3xl font-bold text-white">PAINEL ADMIN</h2>
+        <p class="text-zinc-500 text-sm mt-1">Acesso Restrito</p>
+      </div>
+
+      <div class="space-y-4 relative z-10">
+        <div>
+          <label class="text-xs text-zinc-400 ml-1 mb-1 block">Usuário</label>
+          <input id="login-user" type="text" class="w-full p-4 bg-zinc-950 rounded-2xl border border-zinc-800 focus:border-emerald-500 focus:outline-none text-white transition">
+        </div>
+        <div>
+          <label class="text-xs text-zinc-400 ml-1 mb-1 block">Senha</label>
+          <input id="login-pass" type="password" class="w-full p-4 bg-zinc-950 rounded-2xl border border-zinc-800 focus:border-emerald-500 focus:outline-none text-white transition">
+        </div>
+        <div id="login-error" class="text-red-500 text-sm font-semibold hidden text-center">Credenciais inválidas!</div>
+        <button onclick="efetuarLogin()" class="w-full bg-emerald-600 hover:bg-emerald-500 py-4 rounded-2xl font-bold text-white shadow-lg transition active:scale-95 mt-2">
+          Entrar
+        </button>
+        <button onclick="window.location.href='Index.html'" class="w-full bg-transparent text-zinc-500 hover:text-white py-2 text-sm transition">
+          Voltar ao App
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAINEL PRINCIPAL -->
+  <div id="admin-dashboard" class="hidden flex w-full h-screen overflow-hidden">
+    
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-zinc-900 border-r border-zinc-800 flex flex-col">
+      <div class="p-6 border-b border-zinc-800">
+        <h1 class="logo-font text-2xl font-bold tracking-tighter text-white">EVO <span class="text-emerald-400">ADMIN</span></h1>
+      </div>
+      <nav class="flex-1 p-4 space-y-2">
+        <button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-emerald-500/10 text-emerald-400 font-semibold transition">
+          <i class="fa-solid fa-users"></i> Gestão de Clientes
+        </button>
+      </nav>
+      <div class="p-4 border-t border-zinc-800">
+        <button onclick="sairAdmin()" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500/20 font-bold transition">
+          <i class="fa-solid fa-right-from-bracket"></i> Sair
+        </button>
+      </div>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="flex-1 overflow-y-auto bg-zinc-950 p-8">
+      
+      <!-- ABA: CLIENTES -->
+      <div id="view-clientes">
+        <div class="flex justify-between items-center mb-8">
+          <div>
+            <h2 class="text-3xl font-bold text-white">Clientes Matriculados</h2>
+            <p class="text-zinc-400 text-sm mt-1">Crie senhas, gerencie acessos e pagamentos dos alunos.</p>
+          </div>
+          <button onclick="abrirModalCliente()" class="bg-emerald-600 hover:bg-emerald-500 px-6 py-3 rounded-xl text-white font-bold flex items-center gap-2 transition">
+            <i class="fa-solid fa-plus"></i> Novo Cliente
+          </button>
+        </div>
+
+        <div class="bg-zinc-900 rounded-2xl border border-zinc-800 overflow-hidden">
+          <table class="w-full text-left text-sm text-zinc-300">
+            <thead class="bg-zinc-950 text-zinc-500 uppercase text-xs border-b border-zinc-800">
+              <tr>
+                <th class="px-6 py-4">Aluno</th>
+                <th class="px-6 py-4">Treino (Nível / Gênero)</th>
+                <th class="px-6 py-4">Mensalidade</th>
+                <th class="px-6 py-4 text-right">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="lista-clientes" class="divide-y divide-zinc-800/50">
+              <!-- Renderizado via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- MODAL: CLIENTE -->
+  <div id="modal-cliente" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
+    <div class="bg-zinc-900 rounded-3xl w-full max-w-lg border border-zinc-800 modal-enter overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="p-6 border-b border-zinc-800 flex justify-between items-center shrink-0">
+        <h3 class="text-xl font-bold text-white" id="modal-cliente-titulo">Novo Cliente</h3>
+        <button onclick="fecharModalCliente()" class="text-zinc-500 hover:text-white transition"><i class="fa-solid fa-xmark text-xl"></i></button>
+      </div>
+      
+      <div class="p-6 overflow-y-auto space-y-4 flex-1">
+        <input type="hidden" id="cli-id">
+        
+        <div>
+          <label class="text-xs text-zinc-400 ml-1 mb-1 block">Nome Completo</label>
+          <input id="cli-nome" type="text" class="w-full p-3 bg-zinc-950 rounded-xl border border-zinc-800 focus:border-emerald-500 text-white focus:outline-none transition">
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="text-xs text-zinc-400 ml-1 mb-1 block">Email (Login)</label>
+            <input id="cli-email" type="email" class="w-full p-3 bg-zinc-950 rounded-xl border border-zinc-800 focus:border-emerald-500 text-white focus:outline-none transition">
+          </div>
+          <div>
+            <label class="text-xs text-zinc-400 ml-1 mb-1 block">Senha do App</label>
+            <input id="cli-senha" type="text" class="w-full p-3 bg-zinc-950 rounded-xl border border-zinc-800 focus:border-emerald-500 text-white focus:outline-none transition">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="text-xs text-zinc-400 ml-1 mb-1 block">Valor Mensalidade (R$)</label>
+            <input id="cli-valor" type="number" step="0.01" class="w-full p-3 bg-zinc-950 rounded-xl border border-zinc-800 focus:border-emerald-500 text-white focus:outline-none transition">
+          </div>
+          <div>
+            <label class="text-xs text-zinc-400 ml-1 mb-1 block">Dia do Vencimento</label>
+            <input id="cli-vencimento" type="number" min="1" max="31" class="w-full p-3 bg-zinc-950 rounded-xl border border-zinc-800 focus:border-emerald-500 text-white focus:outline-none transition">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 pt-2 border-t border-zinc-800">
+          <div>
+            <label class="text-xs text-zinc-400 ml-1 mb-1 block">Status do Pagamento</label>
+            <select id="cli-pagamento" class="w-full p-3 bg-zinc-950 rounded-xl border border-zinc-800 focus:border-emerald-500 text-white focus:outline-none transition">
+              <option value="pago">Mensalidade em Dia</option>
+              <option value="pendente">Pendente (Alerta no App)</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs text-zinc-400 ml-1 mb-1 block">Acesso ao App</label>
+            <select id="cli-status" class="w-full p-3 bg-zinc-950 rounded-xl border border-zinc-800 focus:border-emerald-500 text-white focus:outline-none transition">
+              <option value="ativo">Liberado</option>
+              <option value="bloqueado">Bloqueado</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="text-xs text-zinc-400 ml-1 mb-1 block">Nível de Treino</label>
+            <select id="cli-nivel" class="w-full p-3 bg-zinc-950 rounded-xl border border-zinc-800 focus:border-emerald-500 text-white focus:outline-none transition">
+              <option value="0">Iniciante</option>
+              <option value="1">Intermediário</option>
+              <option value="2">Avançado</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs text-zinc-400 ml-1 mb-1 block">Gênero do Treino</label>
+            <select id="cli-genero" class="w-full p-3 bg-zinc-950 rounded-xl border border-zinc-800 focus:border-emerald-500 text-white focus:outline-none transition">
+              <option value="0">Masculino</option>
+              <option value="1">Feminino</option>
+            </select>
+          </div>
+        </div>
+        
+        <div>
+          <label class="text-xs text-zinc-400 ml-1 mb-1 block">URL Foto (Opcional)</label>
+          <input id="cli-foto" type="text" placeholder="https://..." class="w-full p-3 bg-zinc-950 rounded-xl border border-zinc-800 focus:border-emerald-500 text-white focus:outline-none transition">
+        </div>
+      </div>
+      
+      <div class="p-6 border-t border-zinc-800 shrink-0 bg-zinc-900">
+        <button onclick="salvarCliente()" class="w-full bg-emerald-600 hover:bg-emerald-500 py-4 rounded-xl font-bold text-white transition active:scale-95 shadow-lg shadow-emerald-900/50">
+          Salvar Dados do Cliente
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { DB } from './bd.js';
+    import { adminCredentials } from './acesso.js';
+
+    let clientesGlobais = [];
+
+    window.efetuarLogin = () => {
+      const u = document.getElementById('login-user').value;
+      const p = document.getElementById('login-pass').value;
+      const err = document.getElementById('login-error');
+
+      if(u === adminCredentials.usuario && p === adminCredentials.senha) {
+        document.getElementById('admin-login-screen').classList.add('hidden');
+        document.getElementById('admin-dashboard').classList.remove('hidden');
+        carregarDados();
+      } else {
+        err.classList.remove('hidden');
+      }
+    };
+
+    window.sairAdmin = () => {
+      document.getElementById('login-user').value = '';
+      document.getElementById('login-pass').value = '';
+      document.getElementById('admin-login-screen').classList.remove('hidden');
+      document.getElementById('admin-dashboard').classList.add('hidden');
+    };
+
+    async function carregarDados() {
+      clientesGlobais = await DB.getClientes();
+      renderizarClientes();
+    }
+
+    function renderizarClientes() {
+      const tbody = document.getElementById('lista-clientes');
+      if (clientesGlobais.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="px-6 py-8 text-center text-zinc-500">Nenhum cliente cadastrado.</td></tr>`;
+        return;
+      }
+
+      const niveis = ["Iniciante", "Intermediário", "Avançado"];
+      const generos = ["Masc", "Fem"];
+
+      tbody.innerHTML = clientesGlobais.map(c => `
+        <tr class="hover:bg-zinc-800/30 transition group">
+          <td class="px-6 py-4">
+            <div class="flex items-center gap-3">
+              <img src="${c.foto || 'perfil.jpg'}" class="w-10 h-10 rounded-full object-cover border border-zinc-700" onerror="this.src='perfil.jpg'">
+              <div>
+                <p class="text-white font-medium">${c.nome}</p>
+                <p class="text-xs text-zinc-500">${c.email}</p>
+              </div>
+            </div>
+          </td>
+          <td class="px-6 py-4">
+            <div class="flex flex-col gap-2 items-start">
+              <span class="bg-zinc-800 px-3 py-1 rounded-full text-[10px] font-semibold text-zinc-300 border border-zinc-700 uppercase">${niveis[c.nivel] || 'Iniciante'} • ${generos[c.genero] || 'Masc'}</span>
+              ${c.status === 'bloqueado' ? '<span class="bg-red-500/10 text-red-500 px-2 py-0.5 rounded text-[10px] font-bold border border-red-500/20"><i class="fa-solid fa-lock mr-1"></i>Bloqueado</span>' : '<span class="bg-emerald-500/10 text-emerald-500 px-2 py-0.5 rounded text-[10px] font-bold border border-emerald-500/20"><i class="fa-solid fa-unlock mr-1"></i>Liberado</span>'}
+            </div>
+          </td>
+          <td class="px-6 py-4">
+            <div class="flex flex-col gap-1 items-start">
+              <span class="font-medium text-white">R$ ${parseFloat(c.valorMensalidade||0).toFixed(2)} <span class="text-zinc-500 text-xs font-normal">(Dia ${c.vencimento})</span></span>
+              ${c.pagamento === 'pendente' ? '<span class="bg-orange-500/10 text-orange-500 px-2 py-0.5 rounded text-[10px] font-bold border border-orange-500/20 uppercase"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Pendente</span>' : '<span class="bg-blue-500/10 text-blue-500 px-2 py-0.5 rounded text-[10px] font-bold border border-blue-500/20 uppercase"><i class="fa-solid fa-check mr-1"></i>Em Dia</span>'}
+            </div>
+          </td>
+          <td class="px-6 py-4 text-right">
+            <button onclick="editarCliente('${c.id}')" class="text-blue-400 hover:text-blue-300 mx-2 transition p-2 bg-blue-500/10 rounded-lg"><i class="fa-solid fa-pen"></i></button>
+            <button onclick="deletarCliente('${c.id}')" class="text-red-500 hover:text-red-400 transition p-2 bg-red-500/10 rounded-lg"><i class="fa-solid fa-trash"></i></button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    window.abrirModalCliente = () => {
+      document.getElementById('modal-cliente-titulo').textContent = "Novo Cliente";
+      document.getElementById('cli-id').value = "";
+      ['nome', 'email', 'senha', 'valor', 'vencimento', 'foto'].forEach(id => document.getElementById(`cli-${id}`).value = "");
+      document.getElementById('cli-nivel').value = "0";
+      document.getElementById('cli-genero').value = "0";
+      document.getElementById('cli-pagamento').value = "pago";
+      document.getElementById('cli-status').value = "ativo";
+      document.getElementById('modal-cliente').classList.remove('hidden');
+    };
+
+    window.fecharModalCliente = () => {
+      document.getElementById('modal-cliente').classList.add('hidden');
+    };
+
+    window.editarCliente = (id) => {
+      const c = clientesGlobais.find(x => x.id === id);
+      if(!c) return;
+      document.getElementById('modal-cliente-titulo').textContent = "Editar Cliente";
+      document.getElementById('cli-id').value = c.id;
+      document.getElementById('cli-nome').value = c.nome || '';
+      document.getElementById('cli-email').value = c.email || '';
+      document.getElementById('cli-senha').value = c.senha || '';
+      document.getElementById('cli-valor').value = c.valorMensalidade || '';
+      document.getElementById('cli-vencimento').value = c.vencimento || '';
+      document.getElementById('cli-nivel').value = c.nivel !== undefined ? c.nivel : '0';
+      document.getElementById('cli-genero').value = c.genero !== undefined ? c.genero : '0';
+      document.getElementById('cli-pagamento').value = c.pagamento || 'pago';
+      document.getElementById('cli-status').value = c.status || 'ativo';
+      document.getElementById('cli-foto').value = c.foto || '';
+      document.getElementById('modal-cliente').classList.remove('hidden');
+    };
+
+    window.salvarCliente = async () => {
+      const id = document.getElementById('cli-id').value;
+      const email = document.getElementById('cli-email').value.trim();
+      
+      const dados = {
+        nome: document.getElementById('cli-nome').value.trim(),
+        email: email,
+        senha: document.getElementById('cli-senha').value.trim(),
+        valorMensalidade: parseFloat(document.getElementById('cli-valor').value) || 0,
+        vencimento: parseInt(document.getElementById('cli-vencimento').value) || 1,
+        nivel: parseInt(document.getElementById('cli-nivel').value) || 0,
+        genero: parseInt(document.getElementById('cli-genero').value) || 0,
+        pagamento: document.getElementById('cli-pagamento').value,
+        status: document.getElementById('cli-status').value,
+        foto: document.getElementById('cli-foto').value.trim()
+      };
+
+      if(!dados.nome || !dados.email || !dados.senha) {
+        alert("Nome, E-mail e Senha são obrigatórios.");
+        return;
+      }
+
+      if(!id) {
+        const existe = await DB.getClienteByEmail(email);
+        if(existe) {
+          alert("Já existe um cliente com este e-mail.");
+          return;
+        }
+        dados.dataCadastro = new Date().toLocaleDateString('pt-BR');
+        await DB.addCliente(dados);
+      } else {
+        const existe = await DB.getClienteByEmail(email);
+        if(existe && existe.id !== id) {
+          alert("Já existe outro cliente com este e-mail.");
+          return;
+        }
+        await DB.updateCliente(id, dados);
+      }
+      
+      window.fecharModalCliente();
+      carregarDados();
+      alert("Cliente salvo com sucesso!");
+    };
+
+    window.deletarCliente = async (id) => {
+      if(confirm("Tem certeza que deseja apagar este cliente permanentemente?")) {
+        await DB.deleteCliente(id);
+        carregarDados();
+      }
+    };
+
+  </script>
+</body>
+</html>

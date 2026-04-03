@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>EVO FITNESS • Loja</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap');
+    body { font-family: 'Space Grotesk', sans-serif; -webkit-tap-highlight-color: transparent; }
+  </style>
+</head>
+<body class="min-h-screen bg-zinc-950 text-zinc-100 pb-10">
+
+  <!-- HEADER DA LOJA -->
+  <header class="fixed top-0 left-0 right-0 bg-zinc-900/80 backdrop-blur-xl border-b border-zinc-800 z-50">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+      <button onclick="window.location.href='Index.html'" class="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white transition active:scale-95">
+        <i class="fa-solid fa-arrow-left text-lg"></i>
+      </button>
+      <h1 class="text-2xl font-bold tracking-tighter text-white">EVO <span class="text-emerald-400">STORE</span></h1>
+      <div class="w-10"></div> <!-- Spacer para centralizar -->
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto pt-24 px-4">
+    
+    <div class="text-center mb-10">
+      <h2 class="text-2xl font-bold text-white">Suplementos & Equipamentos</h2>
+      <p class="text-zinc-500 text-sm mt-1">Tudo que você precisa para maximizar seus resultados.</p>
+    </div>
+
+    <!-- SESSÃO: PRÉ TREINO -->
+    <h3 class="font-bold text-lg text-yellow-400 mb-4 border-b border-zinc-800 pb-2 flex items-center gap-2">
+      <i class="fa-solid fa-bolt"></i> Pré-treino (energia e desempenho)
+    </h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-12">
+      
+      <!-- Produto 1 -->
+      <div class="bg-zinc-900 rounded-3xl p-5 border border-zinc-800 hover:border-emerald-500/50 transition flex flex-col items-center text-center group">
+        <h3 class="text-lg font-bold text-white mb-4">Pré-Treino Insane</h3>
+        <div class="w-full aspect-square bg-zinc-950 rounded-2xl mb-4 flex items-center justify-center overflow-hidden border border-zinc-800">
+          <img src="img/pretreino.jpg" alt="Pré Treino" class="w-full h-full object-cover group-hover:scale-105 transition-transform" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <i class="fa-solid fa-bolt text-5xl text-zinc-700 hidden"></i>
+        </div>
+        <p class="text-emerald-400 font-bold text-xl mt-auto mb-4">R$ 129,90</p>
+        <button onclick="window.location.href='https://SUA-NOVA-PAGINA-AQUI.com'" 
+          class="w-full bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl font-bold text-white text-sm transition active:scale-95 shadow-lg shadow-emerald-900/50">
+          Comprar
+        </button>
+      </div>
+
+      <!-- Produto 2 -->
+      <div class="bg-zinc-900 rounded-3xl p-5 border border-zinc-800 hover:border-emerald-500/50 transition flex flex-col items-center text-center group">
+        <h3 class="text-lg font-bold text-white mb-4">Creatina Monohidratada</h3>
+        <div class="w-full aspect-square bg-zinc-950 rounded-2xl mb-4 flex items-center justify-center overflow-hidden border border-zinc-800">
+          <img src="img/creatina.webp" alt="Creatina" class="w-full h-full object-cover group-hover:scale-105 transition-transform" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <i class="fa-solid fa-flask text-5xl text-zinc-700 hidden"></i>
+        </div>
+        <p class="text-emerald-400 font-bold text-xl mt-auto mb-4">R$ 99,90</p>
+        <button onclick="window.location.href='https://SUA-NOVA-PAGINA-AQUI.com'" 
+          class="w-full bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl font-bold text-white text-sm transition active:scale-95 shadow-lg shadow-emerald-900/50">
+          Comprar
+        </button>
+      </div>
+
+    </div>
+
+
+    <!-- SESSÃO: DURANTE O TREINO -->
+    <h3 class="font-bold text-lg text-blue-400 mb-4 border-b border-zinc-800 pb-2 flex items-center gap-2">
+      <i class="fa-solid fa-droplet"></i> Durante o treino (hidratação e resistência)
+    </h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-12">
+      
+      <!-- Produto 4 -->
+      <div class="bg-zinc-900 rounded-3xl p-5 border border-zinc-800 hover:border-emerald-500/50 transition flex flex-col items-center text-center group">
+        <h3 class="text-lg font-bold text-white mb-4">BCAA Concentrado</h3>
+        <div class="w-full aspect-square bg-zinc-950 rounded-2xl mb-4 flex items-center justify-center overflow-hidden border border-zinc-800">
+          <img src="img/bcaa.webp" alt="BCAA" class="w-full h-full object-cover group-hover:scale-105 transition-transform" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <i class="fa-solid fa-capsules text-5xl text-zinc-700 hidden"></i>
+        </div>
+        <p class="text-emerald-400 font-bold text-xl mt-auto mb-4">R$ 79,90</p>
+        <button onclick="window.location.href='https://SUA-NOVA-PAGINA-AQUI.com'" 
+          class="w-full bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl font-bold text-white text-sm transition active:scale-95 shadow-lg shadow-emerald-900/50">
+          Comprar
+        </button>
+      </div>
+
+      <!-- Produto 5 -->
+      <div class="bg-zinc-900 rounded-3xl p-5 border border-zinc-800 hover:border-emerald-500/50 transition flex flex-col items-center text-center group">
+        <h3 class="text-lg font-bold text-white mb-4">Maltodextrina 1Kg</h3>
+        <div class="w-full aspect-square bg-zinc-950 rounded-2xl mb-4 flex items-center justify-center overflow-hidden border border-zinc-800">
+          <img src="img/Maltodextrina.webp" alt="Maltodextrina" class="w-full h-full object-cover group-hover:scale-105 transition-transform" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <i class="fa-solid fa-wine-bottle text-5xl text-zinc-700 hidden"></i>
+        </div>
+        <p class="text-emerald-400 font-bold text-xl mt-auto mb-4">R$ 35,00</p>
+        <button onclick="window.location.href='https://SUA-NOVA-PAGINA-AQUI.com'" 
+          class="w-full bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl font-bold text-white text-sm transition active:scale-95 shadow-lg shadow-emerald-900/50">
+          Comprar
+        </button>
+      </div>
+    </div>
+
+
+    <!-- SESSÃO: PÓS TREINO -->
+    <h3 class="font-bold text-lg text-emerald-400 mb-4 border-b border-zinc-800 pb-2 flex items-center gap-2">
+      <i class="fa-solid fa-shield-heart"></i> Pós-treino (recuperação muscular)
+    </h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-10">
+      
+      <!-- Produto 7 -->
+      <div class="bg-zinc-900 rounded-3xl p-5 border border-zinc-800 hover:border-emerald-500/50 transition flex flex-col items-center text-center group">
+        <h3 class="text-lg font-bold text-white mb-4">Whey Protein Isolado</h3>
+        <div class="w-full aspect-square bg-zinc-950 rounded-2xl mb-4 flex items-center justify-center overflow-hidden border border-zinc-800">
+          <img src="img/whey.jpg" alt="Whey Protein" class="w-full h-full object-cover group-hover:scale-105 transition-transform" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <i class="fa-solid fa-jar text-5xl text-zinc-700 hidden"></i>
+        </div>
+        <p class="text-emerald-400 font-bold text-xl mt-auto mb-4">R$ 189,90</p>
+        <button onclick="window.location.href='https://SUA-NOVA-PAGINA-AQUI.com'" 
+          class="w-full bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl font-bold text-white text-sm transition active:scale-95 shadow-lg shadow-emerald-900/50">
+          Comprar
+        </button>
+      </div>
+
+      <!-- Produto 8 -->
+      <div class="bg-zinc-900 rounded-3xl p-5 border border-zinc-800 hover:border-emerald-500/50 transition flex flex-col items-center text-center group">
+        <h3 class="text-lg font-bold text-white mb-4">Cinta Lombar PRO</h3>
+        <div class="w-full aspect-square bg-zinc-950 rounded-2xl mb-4 flex items-center justify-center overflow-hidden border border-zinc-800">
+          <img src="img/cinta.jpg" alt="Cinta Lombar" class="w-full h-full object-cover group-hover:scale-105 transition-transform" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <i class="fa-solid fa-shield-halved text-5xl text-zinc-700 hidden"></i>
+        </div>
+        <p class="text-emerald-400 font-bold text-xl mt-auto mb-4">R$ 89,90</p>
+        <button onclick="window.location.href='https://SUA-NOVA-PAGINA-AQUI.com'" 
+          class="w-full bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl font-bold text-white text-sm transition active:scale-95 shadow-lg shadow-emerald-900/50">
+          Comprar
+        </button>
+      </div>
+
+    <!-- SESSÃO: EQUIPAMENTO -->
+    <h3 class="font-bold text-lg text-emerald-400 mb-4 border-b border-zinc-800 pb-2 flex items-center gap-2">
+      <i class="fa-solid fa-dumbbell"></i> Equipamentos (Melhoria de performance)
+    </h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-10">
+      
+      <!-- Produto 10 -->
+      <div class="bg-zinc-900 rounded-3xl p-5 border border-zinc-800 hover:border-emerald-500/50 transition flex flex-col items-center text-center group">
+        <h3 class="text-lg font-bold text-white mb-4">Luva Academia - Taurene</h3>
+        <div class="w-full aspect-square bg-zinc-950 rounded-2xl mb-4 flex items-center justify-center overflow-hidden border border-zinc-800">
+          <img src="img/Luva.webp" alt="Luva para Treino" class="w-full h-full object-cover group-hover:scale-105 transition-transform" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <i class="fa-solid fa-mitten text-5xl text-zinc-700 hidden"></i>
+        </div>
+        <p class="text-emerald-400 font-bold text-xl mt-auto mb-4">R$ 19,90</p>
+        <button onclick="window.location.href='https://SUA-NOVA-PAGINA-AQUI.com'" 
+          class="w-full bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl font-bold text-white text-sm transition active:scale-95 shadow-lg shadow-emerald-900/50">
+          Comprar
+        </button>
+      </div>
+
+      <!-- Produto 11 -->
+      <div class="bg-zinc-900 rounded-3xl p-5 border border-zinc-800 hover:border-emerald-500/50 transition flex flex-col items-center text-center group">
+        <h3 class="text-lg font-bold text-white mb-4">Coqueteleira 700ml</h3>
+        <div class="w-full aspect-square bg-zinc-950 rounded-2xl mb-4 flex items-center justify-center overflow-hidden border border-zinc-800">
+          <img src="img/Coqueteleira.webp" alt="Coqueteleira 700ml" class="w-full h-full object-cover group-hover:scale-105 transition-transform" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <i class="fa-solid fa-blender text-5xl text-zinc-700 hidden"></i>
+        </div>
+        <p class="text-emerald-400 font-bold text-xl mt-auto mb-4">R$ 89,90</p>
+        <button onclick="window.location.href='https://SUA-NOVA-PAGINA-AQUI.com'" 
+          class="w-full bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl font-bold text-white text-sm transition active:scale-95 shadow-lg shadow-emerald-900/50">
+          Comprar
+        </button>
+      </div>
+
+    </div>
+
+  </main>
+</body>
+</html>
