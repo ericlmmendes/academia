@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>EVO FITNESS • Evolua Sua Forma</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+    
+    body { 
+      font-family: 'Inter', sans-serif; 
+      -webkit-tap-highlight-color: transparent;
+    }
+    .logo-font { font-family: 'Space Grotesk', sans-serif; }
+    
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 25px -5px rgb(16 185 129 / 0.15);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .nav-icon { width: 24px; height: 24px; stroke-width: 2.5; transition: all 0.2s ease; }
+    .nav-btn.active { color: #34d399; }
+    .nav-btn.active .nav-icon { transform: translateY(-2px); }
+    
+    .timer { 
+      font-size: clamp(2.5rem, 8vw, 3.75rem); 
+      font-weight: 700; 
+      letter-spacing: -3px; 
+      font-family: 'Space Grotesk', sans-serif; 
+      font-variant-numeric: tabular-nums;
+    }
+    
+    .modal-enter { animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+    .toast-enter { animation: slideInRight 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+    .toast-exit { animation: fadeOutRight 0.3s ease forwards; }
+    
+    @keyframes modalPop {
+      0% { opacity: 0; transform: scale(0.92) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    @keyframes slideInRight {
+      0% { opacity: 0; transform: translateX(100px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeOutRight {
+      0% { opacity: 1; transform: translateX(0); }
+      100% { opacity: 0; transform: translateX(100px); }
+    }
+
+    button, .card-hover { touch-action: manipulation; }
+    .safe-top { padding-top: env(safe-area-inset-top); }
+    .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+    .profile-photo {
+      width: 40px; height: 40px; object-fit: cover; border-radius: 9999px; border: 2px solid #10b981;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 10px; }
+  </style>
+</head>
+<body class="min-h-screen bg-zinc-950 text-zinc-100 overflow-x-hidden selection:bg-emerald-500/30">
+
+  <!-- TOAST CONTAINER -->
+  <div id="toast-container" class="fixed top-24 right-4 z-[200] flex flex-col gap-3 pointer-events-none"></div>
+
+  <!-- HEADER -->
+  <header class="fixed top-0 left-0 right-0 bg-zinc-900/80 backdrop-blur-xl border-b border-zinc-800 z-50 safe-top">
+    <div class="max-w-md mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+          <i class="fa-solid fa-dumbbell text-white text-lg"></i>
+        </div>
+        <h1 onclick="window.location.href='padm.html'" class="logo-font text-2xl font-bold tracking-tighter text-white cursor-pointer hover:text-emerald-400 transition">EVO <span class="text-emerald-400">FITNESS</span></h1>
+      </div>
+      
+      <div class="flex items-center gap-3">
+        <div onclick="mostrarPagina('perfil')" class="cursor-pointer active:scale-95 transition-transform">
+          <img id="header-profile-photo" src="perfil.jpg" class="profile-photo hidden" alt="Perfil">
+          <i id="header-profile-icon" data-lucide="user-circle" class="w-9 h-9 text-emerald-400"></i>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MODAL LOGIN -->
+  <div id="login-modal" class="fixed inset-0 bg-zinc-950/90 backdrop-blur-sm flex items-center justify-center z-[100] p-4 hidden">
+    <div class="bg-zinc-900 p-8 rounded-[2rem] w-full max-w-sm border border-zinc-800 shadow-2xl modal-enter relative overflow-hidden">
+      <div class="absolute -top-20 -right-20 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl"></div>
+      
+      <!-- Clicar no logo redireciona para o Painel de Administração -->
+      <div onclick="window.location.href='padm.html'" class="flex flex-col items-center mb-8 relative z-10 cursor-pointer group">
+        <div class="w-20 h-20 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center shadow-xl shadow-emerald-500/20 mb-4 group-hover:scale-105 transition">
+          <i class="fa-solid fa-dumbbell text-white text-4xl"></i>
+        </div>
+        <h2 class="logo-font text-4xl font-bold tracking-tighter text-white group-hover:text-emerald-400 transition">EVO FITNESS</h2>
+        <p class="text-emerald-400 text-xs font-semibold mt-1 tracking-[3px]">EVOLUA SUA FORMA</p>
+      </div>
+
+      <div class="relative z-10 space-y-4">
+        <div>
+          <label class="text-xs text-zinc-400 ml-1 mb-1 block">E-mail de Acesso</label>
+          <input id="input-email" type="email" placeholder="Seu email cadastrado" class="w-full p-4 bg-zinc-950/50 rounded-2xl border border-zinc-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none transition text-base" />
+        </div>
+        <div>
+          <label class="text-xs text-zinc-400 ml-1 mb-1 block">Senha</label>
+          <input id="input-senha" type="password" placeholder="Sua senha" class="w-full p-4 bg-zinc-950/50 rounded-2xl border border-zinc-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none transition text-base" />
+        </div>
+        <button onclick="realizarLogin()" id="btn-login" class="w-full bg-emerald-600 hover:bg-emerald-500 py-4 mt-4 rounded-2xl font-bold text-lg shadow-lg shadow-emerald-600/20 transition active:scale-[0.97]">
+          Entrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVEGAÇÃO INFERIOR -->
+  <nav id="nav-principal" class="fixed bottom-0 left-0 right-0 bg-zinc-900/90 backdrop-blur-xl border-t border-zinc-800 z-40 hidden safe-bottom">
+    <div class="max-w-md mx-auto flex justify-between py-2 px-6">
+      <button id="nav-btn-home" onclick="mostrarPagina('home')" class="nav-btn active flex flex-col items-center text-zinc-500 hover:text-zinc-300 py-2 w-16">
+        <i data-lucide="home" class="nav-icon mb-1"></i>
+        <span class="text-[10px] font-medium tracking-wide">Início</span>
+      </button>
+      <button id="nav-btn-treinos" onclick="mostrarPagina('treinos')" class="nav-btn flex flex-col items-center text-zinc-500 hover:text-zinc-300 py-2 w-16">
+        <i data-lucide="dumbbell" class="nav-icon mb-1"></i>
+        <span class="text-[10px] font-medium tracking-wide">Treinar</span>
+      </button>
+      <button id="nav-btn-medidas" onclick="mostrarPagina('medidas')" class="nav-btn flex flex-col items-center text-zinc-500 hover:text-zinc-300 py-2 w-16">
+        <i data-lucide="ruler" class="nav-icon mb-1"></i>
+        <span class="text-[10px] font-medium tracking-wide">Corpo</span>
+      </button>
+      <button id="nav-btn-progresso" onclick="mostrarPagina('progresso')" class="nav-btn flex flex-col items-center text-zinc-500 hover:text-zinc-300 py-2 w-16">
+        <i data-lucide="trending-up" class="nav-icon mb-1"></i>
+        <span class="text-[10px] font-medium tracking-wide">Status</span>
+      </button>
+    </div>
+  </nav>
+
+  <main class="max-w-md mx-auto pb-28 pt-24 px-4 sm:px-5 min-h-screen">
+    
+    <!-- HOME -->
+    <div id="pagina-home" class="hidden animate-fade-in">
+      
+      <!-- Aviso de Pendência (Aparece se status de pagamento for pendente) -->
+      <div id="banner-pagamento" class="hidden bg-orange-500/10 border border-orange-500/50 p-4 rounded-2xl mb-6 flex items-start gap-3">
+        <i class="fa-solid fa-triangle-exclamation text-orange-500 mt-1"></i>
+        <div>
+          <h4 class="text-orange-500 font-bold text-sm">Aviso Importante</h4>
+          <p class="text-orange-400 text-xs mt-1">Sua mensalidade está pendente. Por favor, regularize na recepção da academia para continuar aproveitando sem bloqueios.</p>
+        </div>
+      </div>
+
+      <div class="mb-8">
+        <h1 class="logo-font text-3xl sm:text-4xl font-bold text-white">Olá, <span id="nome-usuario" class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400"></span> 👋</h1>
+        <p class="text-zinc-400 mt-1">Pronto para superar seus limites hoje?</p>
+      </div>
+      
+      <!-- STREAK CARD -->
+      <div class="bg-gradient-to-br from-zinc-900 to-zinc-950 p-6 rounded-3xl flex items-center gap-5 mb-6 border border-zinc-800 relative overflow-hidden shadow-lg">
+        <div class="absolute -right-4 -top-4 w-24 h-24 bg-orange-500/10 rounded-full blur-2xl"></div>
+        <div class="w-14 h-14 bg-orange-500/20 text-orange-400 rounded-2xl flex items-center justify-center text-3xl shadow-inner">🔥</div>
+        <div class="flex-1 z-10">
+          <p class="text-zinc-400 text-sm font-medium">Dias consecutivos</p>
+          <div class="flex items-baseline gap-2">
+            <p id="streak-count" class="text-4xl font-bold text-white tracking-tight">0</p>
+            <p class="text-orange-400 text-sm font-semibold">Dias!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- WATER TRACKER -->
+      <div class="bg-zinc-900 p-6 rounded-3xl border border-zinc-800 mb-6">
+        <div class="flex justify-between items-end mb-4">
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-droplet text-blue-400 text-xl"></i>
+            <div>
+              <p class="text-sm font-medium text-zinc-300">Água Diária</p>
+              <p class="text-xs text-zinc-500">Meta: 2.5 Litros</p>
+            </div>
+          </div>
+          <button onclick="adicionarAgua()" class="bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 px-4 py-2 rounded-xl text-sm font-bold transition active:scale-95">+ 250ml</button>
+        </div>
+        <div class="w-full bg-zinc-950 rounded-full h-3 mb-2 overflow-hidden shadow-inner">
+          <div id="water-bar" class="bg-gradient-to-r from-blue-600 to-blue-400 h-full rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+        </div>
+        <p class="text-right text-xs text-blue-400 font-medium" id="water-text">0ml / 2500ml</p>
+      </div>
+
+      <!-- DICA DO DIA -->
+      <div class="bg-emerald-950/30 p-5 rounded-3xl border border-emerald-500/20 mb-8 relative">
+        <div class="flex items-center gap-2 mb-2">
+          <i class="fa-solid fa-lightbulb text-emerald-400"></i>
+          <p class="text-emerald-400 font-bold text-xs tracking-wider">DICA DO DIA</p>
+        </div>
+        <p id="dica-do-dia" class="text-zinc-300 text-sm leading-relaxed"></p>
+      </div>
+
+      <!-- TREINO DE CÁRDIO -->
+      <div class="mb-8">
+        <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-heart-pulse text-red-500"></i> Treinos de Cárdio</h3>
+        <div class="space-y-3">
+          
+          <button onclick="iniciarCardio('Esteira (Caminhada/Corrida)', 30)" class="w-full bg-zinc-900 p-4 rounded-3xl text-left card-hover border border-zinc-800 transition relative overflow-hidden group flex items-center justify-between">
+            <div class="flex items-center gap-4 relative z-10">
+              <div class="w-12 h-12 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center text-xl shadow-inner">
+                <i class="fa-solid fa-person-running"></i>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-white group-hover:text-red-400 transition-colors">Esteira</h3>
+                <p class="text-xs text-zinc-400 mt-1"><i class="fa-regular fa-clock mr-1"></i> 30 min • Intensidade Média</p>
+              </div>
+            </div>
+            <i class="fa-solid fa-chevron-right text-zinc-600 group-hover:text-red-400 transition-colors relative z-10"></i>
+            <div class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-red-600/10 to-transparent"></div>
+          </button>
+
+          <button onclick="iniciarCardio('Bicicleta Ergométrica', 30)" class="w-full bg-zinc-900 p-4 rounded-3xl text-left card-hover border border-zinc-800 transition relative overflow-hidden group flex items-center justify-between">
+            <div class="flex items-center gap-4 relative z-10">
+              <div class="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-xl shadow-inner">
+                <i class="fa-solid fa-person-biking"></i>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors">Bicicleta</h3>
+                <p class="text-xs text-zinc-400 mt-1"><i class="fa-regular fa-clock mr-1"></i> 30 min • Ritmo Moderado</p>
+              </div>
+            </div>
+            <i class="fa-solid fa-chevron-right text-zinc-600 group-hover:text-blue-400 transition-colors relative z-10"></i>
+            <div class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-blue-600/10 to-transparent"></div>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- NUTRIÇÃO E VITAMINAS -->
+      <div class="mb-8">
+        <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-apple-whole text-red-500"></i> Nutrição para Crescer e Secar</h3>
+        <div class="space-y-3">
+          
+          <!-- Pré-treino -->
+          <div class="bg-zinc-900 p-5 rounded-3xl border border-zinc-800">
+            <h4 class="text-sm font-bold text-yellow-400 mb-1">🟡 Pré-treino (energia e desempenho)</h4>
+            <p class="text-[10px] text-zinc-500 mb-3 uppercase tracking-wider">30–90 min antes</p>
+            <ul class="text-sm text-zinc-300 space-y-1 mb-3">
+              <li>• Banana + aveia</li>
+              <li>• Pão integral + pasta de amendoim</li>
+              <li>• Iogurte + mel + granola</li>
+              <li>• Tapioca + queijo ou frango</li>
+              <li>• Batata doce + ovo</li>
+            </ul>
+            <div class="bg-yellow-400/10 text-yellow-400 text-xs px-3 py-2 rounded-xl font-medium">
+              👉 Foco: carboidrato + um pouco de proteína
+            </div>
+          </div>
+          
+          <!-- Durante -->
+          <div class="bg-zinc-900 p-5 rounded-3xl border border-zinc-800">
+            <h4 class="text-sm font-bold text-blue-400 mb-1">🔵 Durante o treino (hidratação e resistência)</h4>
+            <p class="text-[10px] text-zinc-500 mb-3 uppercase tracking-wider">Principalmente se o treino durar +60 min</p>
+            <ul class="text-sm text-zinc-300 space-y-1 mb-3">
+              <li>• Água (essencial 💧)</li>
+              <li>• Água + eletrólitos</li>
+              <li>• Água de coco</li>
+              <li>• Bebida isotônica</li>
+              <li>• BCAA (opcional)</li>
+            </ul>
+            <div class="bg-blue-400/10 text-blue-400 text-xs px-3 py-2 rounded-xl font-medium">
+              👉 Foco: hidratação + reposição de sais minerais
+            </div>
+          </div>
+          
+          <!-- Pós-treino -->
+          <div class="bg-zinc-900 p-5 rounded-3xl border border-zinc-800">
+            <h4 class="text-sm font-bold text-emerald-400 mb-1">🟢 Pós-treino (recuperação muscular)</h4>
+            <p class="text-[10px] text-zinc-500 mb-3 uppercase tracking-wider">Até 1h depois</p>
+            <ul class="text-sm text-zinc-300 space-y-1 mb-3">
+              <li>• Arroz + frango + legumes</li>
+              <li>• Shake de proteína + banana</li>
+              <li>• Omelete + pão integral</li>
+              <li>• Iogurte + frutas</li>
+              <li>• Carne + batata</li>
+            </ul>
+            <div class="bg-emerald-400/10 text-emerald-400 text-xs px-3 py-2 rounded-xl font-medium">
+              👉 Foco: proteína + carboidrato para recuperação
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TREINOS -->
+    <div id="pagina-treinos" class="hidden">
+      <h2 class="text-3xl font-bold mb-6 text-white logo-font">Explorar Treinos</h2>
+      
+      <!-- Contêiner oculto contendo os filtros para não quebrar a estrutura HTML solicitada, mas forçar a visualização única do treino correto para o aluno. -->
+      <div class="hidden">
+        <div class="flex bg-zinc-900/80 p-1.5 rounded-2xl mb-6 shadow-inner">
+          <button onclick="filtrarNivel(0)" id="aba-iniciante" class="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-emerald-600 text-white shadow transition-all">Iniciante</button>
+          <button onclick="filtrarNivel(1)" id="aba-intermediario" class="flex-1 py-2.5 rounded-xl text-sm font-semibold text-zinc-400 hover:text-zinc-200 transition-all">Intermediário</button>
+          <button onclick="filtrarNivel(2)" id="aba-avancado" class="flex-1 py-2.5 rounded-xl text-sm font-semibold text-zinc-400 hover:text-zinc-200 transition-all">Avançado</button>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-3 mb-6">
+          <button onclick="filtrarGenero(0)" id="aba-homem" class="py-3 bg-zinc-800 hover:bg-zinc-700 rounded-2xl text-sm font-bold flex items-center justify-center gap-2 transition ring-2 ring-emerald-500 text-white">
+            <i class="fa-solid fa-person text-lg text-emerald-400"></i> Masculino
+          </button>
+          <button onclick="filtrarGenero(1)" id="aba-mulher" class="py-3 bg-zinc-900 hover:bg-zinc-800 rounded-2xl text-sm font-bold flex items-center justify-center gap-2 transition text-zinc-400 border border-zinc-800">
+            <i class="fa-solid fa-person-dress text-lg"></i> Feminino
+          </button>
+        </div>
+      </div>
+      
+      <div id="lista-treinos" class="space-y-4"></div>
+    </div>
+
+    <!-- MEDIDAS -->
+    <div id="pagina-medidas" class="hidden">
+      <h2 class="text-3xl font-bold mb-6 logo-font">Seu Corpo</h2>
+      
+      <div class="bg-zinc-900 rounded-3xl p-6 shadow-lg border border-zinc-800 mb-8">
+        <h3 class="text-sm font-bold text-emerald-400 mb-4 uppercase tracking-wider">Registrar Hoje</h3>
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div class="col-span-2">
+            <label class="text-xs text-zinc-500 ml-1">Peso Corporal (kg)</label>
+            <input id="input-peso" type="number" step="0.1" class="w-full mt-1 p-3.5 bg-zinc-950 rounded-xl border border-zinc-800 focus:border-emerald-500 focus:outline-none font-medium text-white" />
+          </div>
+          <div>
+            <label class="text-xs text-zinc-500 ml-1">Braço (cm)</label>
+            <input id="input-braco" type="number" step="0.1" class="w-full mt-1 p-3.5 bg-zinc-950 rounded-xl border border-zinc-800 focus:border-emerald-500 focus:outline-none text-white" />
+          </div>
+          <div>
+            <label class="text-xs text-zinc-500 ml-1">Peito (cm)</label>
+            <input id="input-peito" type="number" step="0.1" class="w-full mt-1 p-3.5 bg-zinc-950 rounded-xl border border-zinc-800 focus:border-emerald-500 focus:outline-none text-white" />
+          </div>
+          <div>
+            <label class="text-xs text-zinc-500 ml-1">Cintura (cm)</label>
+            <input id="input-cintura" type="number" step="0.1" class="w-full mt-1 p-3.5 bg-zinc-950 rounded-xl border border-zinc-800 focus:border-emerald-500 focus:outline-none text-white" />
+          </div>
+          <div>
+            <label class="text-xs text-zinc-500 ml-1">Coxa (cm)</label>
+            <input id="input-perna" type="number" step="0.1" class="w-full mt-1 p-3.5 bg-zinc-950 rounded-xl border border-zinc-800 focus:border-emerald-500 focus:outline-none text-white" />
+          </div>
+        </div>
+        <button onclick="salvarMedida()" class="w-full bg-emerald-600 hover:bg-emerald-500 py-4 mt-2 rounded-xl font-bold shadow-lg shadow-emerald-900/50 active:scale-[0.98] transition-transform text-white">
+          Salvar Medidas
+        </button>
+      </div>
+
+      <h3 class="text-xl font-bold mb-4 text-white">Somador (Total)</h3>
+      <div id="somador-medidas" class="bg-zinc-900 rounded-3xl p-5 border border-zinc-800 mb-8 grid grid-cols-4 gap-2 text-center">
+        <!-- Preenchido via JS -->
+      </div>
+
+      <h3 class="text-xl font-bold mb-4 text-white">Histórico</h3>
+      <div id="historico-medidas" class="space-y-3">
+        <!-- Preenchido via JS -->
+      </div>
+    </div>
+
+    <!-- PROGRESSO -->
+    <div id="pagina-progresso" class="hidden">
+      <h2 class="text-3xl font-bold mb-6 logo-font text-white">Status de Atleta</h2>
+      
+      <!-- NÍVEL -->
+      <div class="bg-gradient-to-br from-emerald-900/40 to-zinc-900 rounded-3xl p-6 border border-emerald-500/30 mb-6 text-center relative overflow-hidden">
+        <div class="w-24 h-24 mx-auto mb-3 flex items-center justify-center relative">
+          <div class="absolute inset-0 bg-emerald-500/20 rounded-full blur-xl"></div>
+          <img id="medalha-nivel" src="medalha/nivel_1.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" class="w-20 h-20 object-contain relative z-10 drop-shadow-2xl" alt="Medalha">
+          <i class="fa-solid fa-trophy text-emerald-400 text-5xl hidden relative z-10"></i>
+        </div>
+        <p class="text-zinc-400 text-sm font-medium">Seu Nível Atual</p>
+        <h3 id="nivel-atleta" class="text-2xl font-bold text-white mt-1">Nível 1 - Iniciante</h3>
+        
+        <div class="w-full bg-zinc-950 rounded-full h-2 mt-5 overflow-hidden">
+          <div id="xp-bar" class="bg-emerald-500 h-full rounded-full" style="width: 0%"></div>
+        </div>
+        <p id="xp-texto" class="text-xs text-zinc-500 mt-2 text-right">0/30 dias consecutivos para o Nível 2</p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="bg-zinc-900 rounded-3xl p-6 text-center border border-zinc-800 shadow-sm">
+          <i class="fa-solid fa-calendar-check text-emerald-500 text-2xl mb-2"></i>
+          <p id="contagem-treinos" class="text-4xl font-bold text-white">0</p>
+          <p class="text-xs text-zinc-400 mt-1 font-medium uppercase tracking-wider">Treinos Feitos</p>
+        </div>
+        <div class="bg-zinc-900 rounded-3xl p-6 text-center border border-zinc-800 shadow-sm">
+          <i class="fa-solid fa-fire text-orange-500 text-2xl mb-2"></i>
+          <p id="dias-consecutivos-stats" class="text-4xl font-bold text-white">0</p>
+          <p class="text-xs text-zinc-400 mt-1 font-medium uppercase tracking-wider">Dias Consecutivos</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PERFIL -->
+    <div id="pagina-perfil" class="hidden text-center py-6">
+      <div class="relative w-32 h-32 mx-auto mb-6">
+        <img id="profile-photo" src="perfil.jpg" class="w-32 h-32 rounded-full object-cover border-4 border-emerald-500 shadow-xl shadow-emerald-900/50 hidden" alt="Sua foto">
+        <div id="profile-photo-placeholder" class="w-32 h-32 rounded-full border-4 border-zinc-800 bg-zinc-900 flex items-center justify-center">
+          <i class="fa-solid fa-user text-4xl text-zinc-600"></i>
+        </div>
+        <label class="absolute bottom-0 right-0 bg-emerald-600 text-white p-2 rounded-full cursor-pointer hover:bg-emerald-500 transition shadow-lg">
+          <i class="fa-solid fa-camera"></i>
+          <input type="file" accept="image/*" class="hidden" onchange="uploadProfilePhoto(event)">
+        </label>
+      </div>
+      
+      <h2 id="nome-perfil" class="text-3xl font-bold text-white mb-1"></h2>
+      <p id="email-perfil" class="text-zinc-400 font-medium"></p>
+      <div class="mt-4 inline-block bg-zinc-900 px-4 py-1.5 rounded-full border border-zinc-800 text-xs text-zinc-300 font-medium">
+        Membro EVO
+      </div>
+
+      <div class="mt-10 space-y-3 px-2">
+        <button onclick="window.location.href='loja.html'" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-4 px-6 rounded-2xl font-bold flex items-center justify-between shadow-lg shadow-emerald-900/20 transition mb-4">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-cart-shopping"></i> Loja EVO</span>
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </button>
+
+        <button onclick="gerenciarNotificacoes()" class="w-full bg-zinc-900 hover:bg-zinc-800 text-white py-4 px-6 rounded-2xl font-semibold flex items-center justify-between border border-zinc-800 transition">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-bell text-emerald-400"></i> Notificações</span>
+          <i class="fa-solid fa-chevron-right text-zinc-600"></i>
+        </button>
+        <button onclick="mostrarModalReset()" class="w-full bg-zinc-900 hover:bg-zinc-800 text-white py-4 px-6 rounded-2xl font-semibold flex items-center justify-between border border-zinc-800 transition">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-rotate-left text-orange-400"></i> Resetar Dados</span>
+          <i class="fa-solid fa-chevron-right text-zinc-600"></i>
+        </button>
+        <button onclick="sair()" class="w-full bg-red-600/10 text-red-500 hover:bg-red-600/20 py-4 px-6 rounded-2xl font-bold flex items-center justify-center gap-2 mt-6 transition">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair da Conta
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL TREINO ATIVO -->
+  <div id="modal-treino" class="hidden fixed inset-0 bg-zinc-950 flex flex-col z-[60] animate-fade-in">
+    <!-- Header Treino -->
+    <div class="bg-zinc-900 p-4 safe-top flex items-center justify-between border-b border-zinc-800 z-10 shadow-md">
+      <div>
+        <span class="text-[10px] text-emerald-400 font-bold tracking-wider uppercase">Treino Atual</span>
+        <h3 id="titulo-treino" class="text-xl font-bold text-white leading-tight"></h3>
+      </div>
+      <button onclick="finalizarTreinoConfirmado()" class="w-10 h-10 bg-red-600/20 text-red-500 rounded-xl flex items-center justify-center hover:bg-red-600/30 transition">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+
+    <!-- Conteúdo Treino -->
+    <div class="flex-1 overflow-y-auto p-4 pb-40">
+      <div id="imagens-exercicio" class="mb-6 rounded-3xl overflow-hidden bg-zinc-900 border border-zinc-800 aspect-video flex items-center justify-center">
+        <!-- JS injeta imagem com fallback automático -->
+      </div>
+      
+      <div id="exercicio-atual" class="mb-8 text-center"></div>
+      
+      <h4 class="font-bold text-zinc-300 mb-3 px-2 text-sm uppercase tracking-wider">Cronograma</h4>
+      <div id="lista-exercicios" class="space-y-2"></div>
+    </div>
+
+    <!-- Player Bottom Bar -->
+    <div class="bg-zinc-900 border-t border-zinc-800 p-4 fixed bottom-0 left-0 right-0 z-20 safe-bottom shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+      <div class="max-w-md mx-auto">
+        <div class="flex items-center justify-between mb-4">
+          <div class="text-center flex-1">
+            <div id="timer" class="timer text-emerald-400">01:00</div>
+            <p class="text-[10px] text-zinc-400 font-bold uppercase tracking-widest mt-1">Tempo de Descanso</p>
+          </div>
+          <div class="flex gap-2">
+            <button id="btn-timer" onclick="toggleTimer()" class="w-12 h-12 rounded-full bg-zinc-800 text-white flex items-center justify-center active:scale-95 transition border border-zinc-700">
+              <i id="icon-timer" class="fa-solid fa-play"></i>
+            </button>
+            <button onclick="resetTimer()" class="w-12 h-12 rounded-full bg-zinc-800 text-zinc-400 flex items-center justify-center active:scale-95 transition border border-zinc-700">
+              <i class="fa-solid fa-rotate-right"></i>
+            </button>
+          </div>
+        </div>
+        
+        <div class="flex gap-3">
+          <button onclick="exercicioAnterior()" class="py-3 px-4 bg-zinc-800 text-zinc-300 rounded-2xl font-semibold text-sm active:scale-95 transition">
+            <i class="fa-solid fa-backward-step"></i>
+          </button>
+          <button onclick="proximoExercicio()" class="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 rounded-2xl font-bold text-white shadow-lg shadow-emerald-900/50 active:scale-95 transition">
+            Próximo Exercício
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PARABÉNS -->
+  <div id="modal-parabens" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[70] p-4">
+    <div class="bg-zinc-900 p-8 rounded-[2rem] w-full max-w-sm text-center modal-enter border border-zinc-800 relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-b from-emerald-500/10 to-transparent"></div>
+      <div class="mx-auto w-24 h-24 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center mb-6 shadow-[0_0_40px_rgba(16,185,129,0.4)] relative z-10 border-4 border-zinc-900">
+        <i class="fa-solid fa-trophy text-white text-4xl"></i>
+      </div>
+      <h2 class="text-3xl font-bold text-white mb-2 relative z-10">Treino Concluído!</h2>
+      <p class="text-zinc-400 text-sm mb-8 relative z-10">Mais um passo dado na sua evolução.</p>
+      
+      <div class="grid grid-cols-2 gap-4 mb-8 relative z-10">
+        <div class="bg-zinc-950 p-3 rounded-2xl border border-zinc-800">
+          <i class="fa-solid fa-fire text-orange-500 mb-1"></i>
+          <p class="text-xs text-zinc-500">Streak</p>
+          <p id="parabens-streak" class="text-xl font-bold text-white"></p>
+        </div>
+        <div class="bg-zinc-950 p-3 rounded-2xl border border-zinc-800">
+          <i class="fa-solid fa-dumbbell text-emerald-500 mb-1"></i>
+          <p class="text-xs text-zinc-500">Total</p>
+          <p id="parabens-total" class="text-xl font-bold text-white"></p>
+        </div>
+      </div>
+
+      <button onclick="fecharParabens()" class="w-full bg-emerald-600 hover:bg-emerald-500 py-4 rounded-xl font-bold text-white text-lg transition active:scale-95 shadow-lg shadow-emerald-900/50 relative z-10">
+        Continuar
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL CONFIRMAÇÃO TREINO (CANCELAR) -->
+  <div id="modal-confirmacao-treino" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[80] p-4">
+    <div class="bg-zinc-900 p-6 rounded-3xl w-full max-w-sm modal-enter border border-zinc-800">
+      <div class="w-12 h-12 rounded-full bg-red-500/20 text-red-500 flex items-center justify-center mx-auto mb-4 text-xl">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <h3 class="text-xl font-bold text-center text-white mb-2">Encerrar Treino?</h3>
+      <p class="text-center text-zinc-400 text-sm mb-6">Você ainda não concluiu todos os exercícios. Deseja sair sem salvar o progresso?</p>
+      <div class="flex gap-3">
+        <button onclick="cancelarFinalizacaoTreino()" class="flex-1 py-3 bg-zinc-800 hover:bg-zinc-700 rounded-xl font-semibold text-zinc-300 active:scale-95 transition">Continuar Treino</button>
+        <button onclick="confirmarCancelamentoTreino()" class="flex-1 py-3 bg-red-600 hover:bg-red-500 rounded-xl font-bold text-white active:scale-95 transition shadow-lg shadow-red-900/50">Sair</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL RESET -->
+  <div id="modal-reset" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[90] p-4">
+    <div class="bg-zinc-900 p-6 rounded-3xl w-full max-w-sm modal-enter border border-zinc-800 text-center">
+      <i class="fa-solid fa-skull text-red-500 text-4xl mb-4"></i>
+      <h3 class="text-xl font-bold mb-2 text-white">Resetar Tudo?</h3>
+      <p class="text-zinc-400 text-sm mb-6">Esta ação apagará permanentemente seus treinos, histórico de medidas e streak. Não há volta.</p>
+      <div class="flex gap-3">
+        <button onclick="cancelarReset()" class="flex-1 py-3 bg-zinc-800 rounded-xl font-semibold text-zinc-300">Cancelar</button>
+        <button onclick="confirmarReset()" class="flex-1 py-3 bg-red-600 rounded-xl font-bold text-white">Apagar Tudo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL NOTIFICAÇÕES -->
+  <div id="modal-notificacoes" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[90] p-4">
+    <div class="bg-zinc-900 p-6 rounded-3xl w-full max-w-sm modal-enter border border-zinc-800">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center">
+          <i class="fa-solid fa-bell"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white">Notificações Push</h3>
+      </div>
+      
+      <div class="bg-zinc-950 p-5 rounded-2xl border border-zinc-800 mb-6">
+        <div class="flex items-center justify-between mb-2">
+          <div>
+            <p class="font-bold text-sm text-white">Lembretes de Treino</p>
+            <p class="text-xs text-zinc-500 mt-1">Alerta sonoro na hora certa</p>
+          </div>
+          <button onclick="toggleNotificacoes()" id="btn-notif" class="px-4 py-2 rounded-xl text-xs font-bold transition-colors bg-emerald-600 text-white">
+            ATIVADO
+          </button>
+        </div>
+        
+        <div id="container-hora-notif" class="mt-4 pt-4 border-t border-zinc-800 flex items-center justify-between transition-all">
+          <p class="text-xs font-bold text-zinc-400">Notificar às:</p>
+          <input type="time" id="input-hora-notif" onchange="salvarHoraNotificacao()" class="bg-zinc-900 text-white border border-zinc-700 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-emerald-500 transition shadow-inner">
+        </div>
+      </div>
+      
+      <button onclick="fecharModalNotificacoes()" class="w-full bg-zinc-800 hover:bg-zinc-700 py-3 rounded-xl font-bold text-white transition active:scale-95">Pronto</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { DB } from './bd.js';
+
+    // ====================== UTILITÁRIOS ======================
+    window.showToast = function(msg, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      
+      const colors = type === 'success' ? 'bg-emerald-500 text-white' : 
+                     type === 'error' ? 'bg-red-500 text-white' : 
+                     'bg-zinc-800 text-white border border-zinc-700';
+      
+      const icon = type === 'success' ? '<i class="fa-solid fa-circle-check"></i>' : 
+                   type === 'error' ? '<i class="fa-solid fa-circle-xmark"></i>' : 
+                   '<i class="fa-solid fa-bell"></i>';
+
+      toast.className = `flex items-center gap-3 px-4 py-3 rounded-2xl shadow-xl toast-enter font-medium text-sm ${colors}`;
+      toast.innerHTML = `${icon} <span>${msg}</span>`;
+      
+      container.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.classList.replace('toast-enter', 'toast-exit');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // ====================== DADOS & ESTADO ======================
+    let usuario = JSON.parse(localStorage.getItem('usuario')) || null;
+    let historicoTreinos = JSON.parse(localStorage.getItem('historicoTreinos')) || [];
+    let profilePhoto = localStorage.getItem('profilePhoto') || null;
+    let streakData = JSON.parse(localStorage.getItem('streakData')) || { count: 0, lastDate: null };
+    let notificacoesAtivadas = JSON.parse(localStorage.getItem('notificacoesAtivadas')) || false;
+    let horaNotificacao = localStorage.getItem('horaNotificacao') || "08:00";
+    let historicoMedidas = JSON.parse(localStorage.getItem('historicoMedidas')) || [];
+    let waterData = JSON.parse(localStorage.getItem('waterData')) || { date: null, amount: 0 };
+
+    let treinoAtual = null;
+    let indiceExercicioAtual = 0;
+    
+    // Controle do Timer
+    let intervaloTimer = null;
+    let timerRestante = 0;
+    let timerRodando = false;
+    let dicaInterval = null;
+
+    const dicasSaude = [
+      "Beba pelo menos 2,5 a 3 litros de água por dia para manter o corpo hidratado.",
+      "Durma de 7 a 9 horas por noite. O sono é essencial para recuperação.",
+      "Inclua proteínas em todas as refeições para ajudar na construção muscular.",
+      "A consistência é mais importante que a intensidade extrema em um só dia.",
+      "O descanso ativo entre treinos pesados acelera a recuperação.",
+      "Mantenha uma postura correta durante os exercícios para evitar lesões.",
+      "Consuma carboidratos antes do treino para ter mais energia."
+    ];
+
+    // Banco de Treinos 
+    let treinosData = {
+      0: { // INICIANTE
+        0: [ // HOMEM
+          { nome: "Peito & Tríceps", duracao: "60 min", descansoPadrao: 60, exercicios: [
+            { nome: "Supino Reto", series: 5, reps: "8" },
+            { nome: "Supino Inclinado", series: 5, reps: "8" },
+            { nome: "Peck Deck", series: 5, reps: "8" },
+            { nome: "Voador", series: 5, reps: "8" },
+            { nome: "Pull Over", series: 5, reps: "8" },
+            { nome: "Pulley Tríceps", series: 5, reps: "8" },
+            { nome: "Pulley Tríceps Invertido", series: 5, reps: "8" },
+            { nome: "Tríceps Corda", series: 5, reps: "8" },
+            { nome: "Abdominal", series: 3, reps: "20" }
+          ]},
+          { nome: "Costas & Bíceps", duracao: "60 min", descansoPadrao: 60, exercicios: [
+            { nome: "Puxada Frente Barra", series: 5, reps: "8" },
+            { nome: "Puxada Atrás", series: 5, reps: "8" },
+            { nome: "Puxada Invertida", series: 5, reps: "8" },
+            { nome: "Pull Down", series: 5, reps: "8" },
+            { nome: "Remada Máquina", series: 4, reps: "8" },
+            { nome: "Rosca Martelo", series: 4, reps: "8" },
+            { nome: "Rosca Direta Barra", series: 4, reps: "8" },
+            { nome: "Rosca Scot", series: 4, reps: "8" },
+            { nome: "Abdominal", series: 3, reps: "20" }
+          ]},
+          { nome: "Perna & Ombro", duracao: "70 min", descansoPadrao: 60, exercicios: [
+            { nome: "Cadeira Extensora", series: 5, reps: "8" },
+            { nome: "Agachamento Hack", series: 5, reps: "8" },
+            { nome: "Mesa Flexora", series: 5, reps: "8" },
+            { nome: "Leg Press Posição Base", series: 5, reps: "8" },
+            { nome: "Cadeira Adutora", series: 5, reps: "8" },
+            { nome: "Máquina Glúteos", series: 4, reps: "8" },
+            { nome: "Panturrilha", series: 5, reps: "8" },
+            { nome: "Desenvolvimento Halteres", series: 4, reps: "8" },
+            { nome: "Elevação Lateral", series: 5, reps: "8" },
+            { nome: "Peck Deck Invertido", series: 5, reps: "8" },
+            { nome: "Encolhimento", series: 5, reps: "8" },
+            { nome: "Abdominal", series: 3, reps: "20" }
+          ]},
+        ],
+        1: [ // MULHER
+          { nome: "Glúteos & Pernas", duracao: "40 min", descansoPadrao: 60, exercicios: [
+            { nome: "Elevação Pélvica", series: 4, reps: "15" },
+            { nome: "Agachamento Sumô", series: 4, reps: "12" },
+            { nome: "Cadeira Abdutora", series: 3, reps: "15" }
+          ]},
+          { nome: "Superiores & Core", duracao: "35 min", descansoPadrao: 45, exercicios: [
+            { nome: "Puxada Alta", series: 3, reps: "15" },
+            { nome: "Elevação Lateral", series: 3, reps: "15" },
+            { nome: "Abdominal Supra", series: 4, reps: "20" }
+          ]}
+        ]
+      },
+      1: { // INTERMEDIÁRIO
+        0: [
+          { nome: "Peito & Tríceps", duracao: "50 min", descansoPadrao: 60, exercicios: [
+            { nome: "Supino Reto Barra", series: 4, reps: "8-10" },
+            { nome: "Supino Inclinado Halteres", series: 4, reps: "10" },
+            { nome: "Crucifixo Máquina", series: 3, reps: "12" },
+            { nome: "Tríceps Corda", series: 4, reps: "12" }
+          ]},
+          { nome: "Costas & Bíceps", duracao: "50 min", descansoPadrao: 60, exercicios: [
+            { nome: "Barra Fixa", series: 4, reps: "8-10" },
+            { nome: "Remada Baixa", series: 4, reps: "10" },
+            { nome: "Pull Down", series: 3, reps: "12" },
+            { nome: "Rosca Direta", series: 4, reps: "12" }
+          ]}
+        ],
+        1: [
+          { nome: "Quadríceps Foco", duracao: "55 min", descansoPadrao: 60, exercicios: [
+            { nome: "Agachamento Livre", series: 4, reps: "10" },
+            { nome: "Leg Press 45", series: 4, reps: "12" },
+            { nome: "Cadeira Extensora", series: 4, reps: "12-15" }
+          ]},
+          { nome: "Posterior & Glúteo", duracao: "55 min", descansoPadrao: 60, exercicios: [
+            { nome: "Stiff", series: 4, reps: "12" },
+            { nome: "Mesa Flexora", series: 4, reps: "12" },
+            { nome: "Elevação Pélvica Barra", series: 4, reps: "10-12" }
+          ]}
+        ]
+      },
+      2: { // AVANÇADO
+        0: [
+          { nome: "Push Day Extremo", duracao: "70 min", descansoPadrao: 90, exercicios: [
+            { nome: "Supino Reto Pesado", series: 5, reps: "5-8" },
+            { nome: "Desenvolvimento Militar", series: 4, reps: "8" },
+            { nome: "Paralelas com Carga", series: 4, reps: "8-10" },
+            { nome: "Tríceps Testa", series: 4, reps: "10-12" }
+          ]}
+        ],
+        1: [
+          { nome: "Leg Day Extremo", duracao: "75 min", descansoPadrao: 90, exercicios: [
+            { nome: "Agachamento Livre Pesado", series: 5, reps: "6-8" },
+            { nome: "Leg Press Pesado", series: 4, reps: "8-10" },
+            { nome: "Bulgaro", series: 4, reps: "10 cada" },
+            { nome: "Panturrilha em Pé", series: 5, reps: "15" }
+          ]}
+        ]
+      }
+    };
+
+    let nivelAtual = 0;
+    let generoAtual = 0;
+
+    // ====================== ÁGUA ======================
+    function checkWaterReset() {
+      const hoje = new Date().toLocaleDateString('pt-BR');
+      if (waterData.date !== hoje) {
+        waterData = { date: hoje, amount: 0 };
+        localStorage.setItem('waterData', JSON.stringify(waterData));
+      }
+    }
+
+    function initWaterTracker() {
+      checkWaterReset();
+      atualizarUIWater();
+    }
+
+    window.adicionarAgua = function() {
+      checkWaterReset(); 
+      waterData.amount += 250;
+      if(waterData.amount > 2500) waterData.amount = 2500;
+      localStorage.setItem('waterData', JSON.stringify(waterData));
+      atualizarUIWater();
+      if(waterData.amount === 2500) showToast("Meta diária de água atingida!", "success");
+    }
+
+    function atualizarUIWater() {
+      const bar = document.getElementById('water-bar');
+      const text = document.getElementById('water-text');
+      const pct = (waterData.amount / 2500) * 100;
+      bar.style.width = `${pct}%`;
+      text.textContent = `${waterData.amount}ml / 2500ml`;
+    }
+
+    // ====================== NOTIFICAÇÕES ======================
+    async function solicitarPermissaoNotificacoes() {
+      if (!("Notification" in window)) return false;
+      if (Notification.permission === "granted") return true;
+      const permission = await Notification.requestPermission();
+      return permission === "granted";
+    }
+
+    window.toggleNotificacoes = function() {
+      notificacoesAtivadas = !notificacoesAtivadas;
+      localStorage.setItem('notificacoesAtivadas', notificacoesAtivadas);
+      const btn = document.getElementById('btn-notif');
+      const containerHora = document.getElementById('container-hora-notif');
+      
+      if(notificacoesAtivadas) {
+        btn.textContent = "ATIVADO";
+        btn.className = "px-4 py-2 rounded-xl text-xs font-bold transition-colors bg-emerald-600 text-white";
+        containerHora.style.display = "flex";
+        showToast("Notificações ativadas");
+        solicitarPermissaoNotificacoes();
+      } else {
+        btn.textContent = "DESATIVADO";
+        btn.className = "px-4 py-2 rounded-xl text-xs font-bold transition-colors bg-zinc-700 text-zinc-300";
+        containerHora.style.display = "none";
+        showToast("Notificações desativadas", "info");
+      }
+    }
+
+    window.salvarHoraNotificacao = function() {
+      horaNotificacao = document.getElementById('input-hora-notif').value;
+      localStorage.setItem('horaNotificacao', horaNotificacao);
+      showToast("Horário salvo com sucesso!");
+    }
+
+    window.gerenciarNotificacoes = function() {
+      document.getElementById('modal-notificacoes').classList.remove('hidden');
+      const btn = document.getElementById('btn-notif');
+      const containerHora = document.getElementById('container-hora-notif');
+      
+      btn.textContent = notificacoesAtivadas ? "ATIVADO" : "DESATIVADO";
+      btn.className = notificacoesAtivadas 
+        ? "px-4 py-2 rounded-xl text-xs font-bold transition-colors bg-emerald-600 text-white" 
+        : "px-4 py-2 rounded-xl text-xs font-bold transition-colors bg-zinc-700 text-zinc-300";
+      
+      document.getElementById('input-hora-notif').value = horaNotificacao;
+      containerHora.style.display = notificacoesAtivadas ? "flex" : "none";
+    }
+
+    window.fecharModalNotificacoes = function() {
+      document.getElementById('modal-notificacoes').classList.add('hidden');
+    }
+
+    setInterval(() => {
+      if(!notificacoesAtivadas) return;
+      const now = new Date();
+      const current = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+      const lastNotifDate = localStorage.getItem('lastNotifDate');
+      const today = now.toLocaleDateString('pt-BR');
+      
+      if(current === horaNotificacao && lastNotifDate !== today) {
+        localStorage.setItem('lastNotifDate', today);
+        try {
+          const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+          audio.play().catch(e => console.log('Erro ao tocar áudio', e));
+        } catch(e) {}
+        showToast("Hora do seu Treino! 💪🔥", "info");
+        if("Notification" in window && Notification.permission === "granted") {
+          new Notification("EVO FITNESS", { body: "Hora de treinar! Supere seus limites hoje. 💪🔥" });
+        }
+      }
+    }, 60000);
+
+    // ====================== GERAIS & PERFIL ======================
+    function atualizarDicaDoDia() {
+      const dicaEl = document.getElementById('dica-do-dia');
+      const indice = Math.floor(Math.random() * dicasSaude.length);
+      dicaEl.textContent = dicasSaude[indice];
+    }
+
+    window.uploadProfilePhoto = async function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async function(ev) {
+        profilePhoto = ev.target.result;
+        localStorage.setItem('profilePhoto', profilePhoto);
+        atualizarFotoPerfil();
+        showToast("Foto de perfil atualizada!");
+        
+        if (usuario && usuario.email) {
+          const cliente = await DB.getClienteByEmail(usuario.email);
+          if (cliente) {
+            cliente.foto = profilePhoto;
+            await DB.updateCliente(cliente.id, cliente);
+          }
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function atualizarFotoPerfil() {
+      const imgHeader = document.getElementById('header-profile-photo');
+      const iconHeader = document.getElementById('header-profile-icon');
+      const imgProfile = document.getElementById('profile-photo');
+      const placeholderProfile = document.getElementById('profile-photo-placeholder');
+      
+      if (profilePhoto) {
+        imgHeader.src = profilePhoto;
+        imgHeader.classList.remove('hidden');
+        iconHeader.classList.add('hidden');
+        
+        if (imgProfile) {
+          imgProfile.src = profilePhoto;
+          imgProfile.classList.remove('hidden');
+          placeholderProfile.classList.add('hidden');
+        }
+      }
+    }
+
+    window.realizarLogin = async function() {
+      const email = document.getElementById('input-email').value.trim();
+      const senha = document.getElementById('input-senha').value.trim();
+      
+      if (!email || !senha) return showToast('Preencha email e senha', 'error');
+      
+      const btn = document.getElementById('btn-login');
+      const oldText = btn.innerText;
+      btn.innerText = "Verificando...";
+      btn.disabled = true;
+
+      try {
+        const cliente = await DB.getClienteByEmail(email);
+        
+        if(!cliente) {
+          showToast('E-mail não encontrado. Contate a recepção.', 'error');
+          return;
+        }
+
+        if(cliente.senha !== senha) {
+          showToast('Senha incorreta.', 'error');
+          return;
+        }
+
+        if(cliente.status === 'bloqueado') {
+          showToast('Acesso bloqueado. Procure a recepção.', 'error');
+          return;
+        }
+
+        usuario = { 
+          nome: cliente.nome, 
+          email: cliente.email, 
+          nivel: cliente.nivel !== undefined ? cliente.nivel : 0,
+          genero: cliente.genero !== undefined ? cliente.genero : 0,
+          pagamento: cliente.pagamento 
+        };
+        localStorage.setItem('usuario', JSON.stringify(usuario));
+        
+        if (cliente.foto) {
+          profilePhoto = cliente.foto;
+          localStorage.setItem('profilePhoto', profilePhoto);
+        }
+
+        document.getElementById('login-modal').classList.add('hidden');
+        document.getElementById('nav-principal').classList.remove('hidden');
+        document.getElementById('nome-usuario').textContent = usuario.nome.split(' ')[0];
+        document.getElementById('nome-perfil').textContent = usuario.nome;
+        document.getElementById('email-perfil').textContent = usuario.email;
+        
+        atualizarFotoPerfil();
+        solicitarPermissaoNotificacoes();
+        
+        nivelAtual = usuario.nivel;
+        generoAtual = usuario.genero;
+        
+        if (usuario.pagamento === 'pendente') {
+          document.getElementById('banner-pagamento').classList.remove('hidden');
+        } else {
+          document.getElementById('banner-pagamento').classList.add('hidden');
+        }
+
+        mostrarPagina('home');
+        showToast('Bem-vindo(a) à Evolução!', 'success');
+      } catch (e) {
+        showToast('Erro ao conectar ao sistema.', 'error');
+        console.error(e);
+      } finally {
+        btn.innerText = oldText;
+        btn.disabled = false;
+      }
+    }
+
+    window.sair = function() {
+      document.getElementById('nav-principal').classList.add('hidden');
+      document.querySelectorAll('[id^="pagina-"]').forEach(el => el.classList.add('hidden'));
+      document.getElementById('login-modal').classList.remove('hidden');
+    }
+
+    window.mostrarPagina = function(pagina) {
+      document.querySelectorAll('[id^="pagina-"]').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`pagina-${pagina}`).classList.remove('hidden');
+      
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active', 'text-emerald-400');
+        btn.classList.add('text-zinc-500');
+      });
+      const activeBtn = document.getElementById(`nav-btn-${pagina}`);
+      if(activeBtn) {
+        activeBtn.classList.remove('text-zinc-500');
+        activeBtn.classList.add('active', 'text-emerald-400');
+      }
+
+      if (pagina === 'treinos') {
+        nivelAtual = usuario.nivel !== undefined ? usuario.nivel : 0;
+        generoAtual = usuario.genero !== undefined ? usuario.genero : 0;
+        renderizarListaTreinos();
+      }
+      if (pagina === 'medidas') renderizarHistoricoMedidas();
+      if (pagina === 'progresso') renderizarProgresso();
+    }
+
+    function atualizarStreak() {
+      const hoje = new Date().toISOString().split('T')[0];
+      if (streakData.lastDate === hoje) return;
+      const ultima = new Date(streakData.lastDate || 0);
+      const diff = Math.floor((new Date(hoje) - ultima) / (1000 * 3600 * 24));
+      
+      if (diff === 1) streakData.count++;
+      else if (diff > 1) streakData.count = 1;
+      else streakData.count = 1;
+      
+      streakData.lastDate = hoje;
+      localStorage.setItem('streakData', JSON.stringify(streakData));
+      document.getElementById('streak-count').textContent = streakData.count;
+    }
+
+    // ====================== TREINOS (PLAYER) ======================
+    function iniciarTreino(treino) {
+      if (!treino.exercicios || treino.exercicios.length === 0) {
+        return showToast('Treino em construção...', 'info');
+      }
+      treinoAtual = JSON.parse(JSON.stringify(treino));
+      indiceExercicioAtual = 0;
+      document.getElementById('titulo-treino').textContent = treino.nome;
+      
+      renderizarExercicioAtual();
+      renderizarListaExercicios();
+      document.getElementById('modal-treino').classList.remove('hidden');
+      
+      timerRestante = treinoAtual.descansoPadrao || 60;
+      atualizarDisplayTimer();
+      pausarTimerUI();
+    }
+
+    window.iniciarCardio = function(nome, duracao) {
+      const treinoCardio = {
+        nome: "Cárdio - " + nome,
+        duracao: duracao + " min",
+        descansoPadrao: 0,
+        exercicios: [
+          { nome: nome, series: 1, reps: duracao + " minutos de atividade" }
+        ]
+      };
+      iniciarTreino(treinoCardio);
+    }
+
+    function carregarImagemExercicio(imgElement, imgBaseName) {
+      const extensoes = ['.gif', '.jpg', '.png', '.webp', '.jpeg'];
+      let index = 0;
+      imgElement.onerror = function() {
+        index++;
+        if (index < extensoes.length) {
+          imgElement.src = `img_treino/${imgBaseName}${extensoes[index]}`;
+        } else {
+          imgElement.onerror = null;
+          imgElement.parentElement.innerHTML = '<i class="fa-solid fa-image text-4xl text-zinc-700"></i>';
+        }
+      };
+      imgElement.src = `img_treino/${imgBaseName}${extensoes[0]}`;
+    }
+
+    function renderizarExercicioAtual() {
+      const ex = treinoAtual.exercicios[indiceExercicioAtual];
+      if (!ex) return;
+      
+      const imgName = ex.nome.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, '_');
+      const imgContainer = document.getElementById('imagens-exercicio');
+      
+      imgContainer.innerHTML = `<img id="img-atual-loader" class="w-full h-full object-cover" alt="${ex.nome}">`;
+      carregarImagemExercicio(document.getElementById('img-atual-loader'), imgName);
+
+      document.getElementById('exercicio-atual').innerHTML = `
+        <h4 class="text-3xl font-bold text-white tracking-tight">${ex.nome}</h4>
+        <div class="inline-block mt-3 bg-emerald-950/50 border border-emerald-500/30 px-4 py-2 rounded-xl">
+          <p class="text-emerald-400 font-bold text-lg">${ex.series} séries <span class="text-zinc-500 mx-1">×</span> ${ex.reps}</p>
+        </div>`;
+    }
+
+    function renderizarListaExercicios() {
+      const container = document.getElementById('lista-exercicios');
+      container.innerHTML = treinoAtual.exercicios.map((ex, i) => `
+        <div class="flex items-center p-3 rounded-2xl ${i === indiceExercicioAtual ? 'bg-emerald-600/20 border border-emerald-500/50' : 'bg-zinc-900 border border-zinc-800 opacity-60'} transition">
+          <div class="w-8 h-8 rounded-full ${i === indiceExercicioAtual ? 'bg-emerald-500 text-white' : 'bg-zinc-800 text-zinc-500'} flex items-center justify-center font-bold text-xs mr-3">
+            ${i+1}
+          </div>
+          <div class="flex-1">
+            <p class="font-bold text-sm ${i === indiceExercicioAtual ? 'text-white' : 'text-zinc-300'}">${ex.nome}</p>
+            <p class="text-xs text-zinc-500">${ex.series} × ${ex.reps}</p>
+          </div>
+          ${i < indiceExercicioAtual ? '<i class="fa-solid fa-check text-emerald-500"></i>' : ''}
+        </div>`).join('');
+    }
+
+    // ====================== TIMER SYSTEM ======================
+    function atualizarDisplayTimer() {
+      const min = Math.floor(timerRestante / 60);
+      const seg = timerRestante % 60;
+      document.getElementById('timer').textContent = `${min < 10 ? '0':''}${min}:${seg < 10 ? '0' : ''}${seg}`;
+    }
+
+    window.toggleTimer = function() {
+      if (timerRodando) pausarTimer(); else iniciarTimer();
+    }
+
+    function iniciarTimer() {
+      if (timerRodando) return;
+      timerRodando = true;
+      document.getElementById('icon-timer').className = "fa-solid fa-pause";
+      document.getElementById('btn-timer').classList.replace('bg-zinc-800', 'bg-emerald-600');
+      
+      intervaloTimer = setInterval(() => {
+        timerRestante--;
+        atualizarDisplayTimer();
+        if (timerRestante <= 0) {
+          pausarTimer();
+          showToast("Fim do descanso!", "info");
+          navigator.vibrate && navigator.vibrate([200, 100, 200]);
+        }
+      }, 1000);
+    }
+
+    function pausarTimer() {
+      timerRodando = false;
+      clearInterval(intervaloTimer);
+      pausarTimerUI();
+    }
+
+    function pausarTimerUI() {
+      document.getElementById('icon-timer').className = "fa-solid fa-play";
+      document.getElementById('btn-timer').classList.replace('bg-emerald-600', 'bg-zinc-800');
+    }
+
+    window.resetTimer = function() {
+      pausarTimer();
+      timerRestante = treinoAtual.descansoPadrao || 60;
+      atualizarDisplayTimer();
+    }
+
+    // ====================== NAVEGAÇÃO TREINO ======================
+    window.proximoExercicio = function() {
+      if (indiceExercicioAtual < treinoAtual.exercicios.length - 1) {
+        indiceExercicioAtual++;
+        renderizarExercicioAtual();
+        renderizarListaExercicios();
+        window.resetTimer();
+      } else {
+        finalizarTreino();
+      }
+    }
+
+    window.exercicioAnterior = function() {
+      if (indiceExercicioAtual > 0) {
+        indiceExercicioAtual--;
+        renderizarExercicioAtual();
+        renderizarListaExercicios();
+        window.resetTimer();
+      }
+    }
+
+    window.finalizarTreinoConfirmado = function() { document.getElementById('modal-confirmacao-treino').classList.remove('hidden'); }
+    window.cancelarFinalizacaoTreino = function() { document.getElementById('modal-confirmacao-treino').classList.add('hidden'); }
+    
+    window.confirmarCancelamentoTreino = function() {
+      document.getElementById('modal-confirmacao-treino').classList.add('hidden');
+      document.getElementById('modal-treino').classList.add('hidden');
+      pausarTimer();
+      treinoAtual = null;
+      showToast("Treino encerrado", "info");
+    }
+
+    function finalizarTreino() {
+      let volumeCalculado = 0;
+      treinoAtual.exercicios.forEach(ex => {
+        const reps = parseInt(ex.reps.split('-')[0]) || 10;
+        volumeCalculado += ex.series * reps * 5; 
+      });
+
+      historicoTreinos.push({ 
+        data: new Date().toLocaleDateString('pt-BR'), 
+        treino: treinoAtual.nome,
+        volume: volumeCalculado
+      });
+      localStorage.setItem('historicoTreinos', JSON.stringify(historicoTreinos));
+      
+      atualizarStreak();
+      
+      document.getElementById('modal-treino').classList.add('hidden');
+      pausarTimer();
+      treinoAtual = null;
+
+      document.getElementById('parabens-streak').textContent = streakData.count + " Dias";
+      document.getElementById('parabens-total').textContent = historicoTreinos.length + " Treinos";
+      document.getElementById('modal-parabens').classList.remove('hidden');
+    }
+
+    window.fecharParabens = function() {
+      document.getElementById('modal-parabens').classList.add('hidden');
+      window.mostrarPagina('progresso');
+    }
+
+    // ====================== LISTA DE TREINOS ======================
+    window.filtrarNivel = function(n) {
+      nivelAtual = n;
+      const abas = [document.getElementById('aba-iniciante'), document.getElementById('aba-intermediario'), document.getElementById('aba-avancado')];
+      abas.forEach((btn, i) => {
+        if(i === n) {
+          btn.classList.add('bg-emerald-600', 'text-white', 'shadow');
+          btn.classList.remove('text-zinc-400');
+        } else {
+          btn.classList.remove('bg-emerald-600', 'text-white', 'shadow');
+          btn.classList.add('text-zinc-400');
+        }
+      });
+      renderizarListaTreinos();
+    }
+
+    window.filtrarGenero = function(g) {
+      generoAtual = g;
+      const abaH = document.getElementById('aba-homem');
+      const abaM = document.getElementById('aba-mulher');
+      
+      if(g === 0) {
+        abaH.className = "py-3 bg-zinc-800 hover:bg-zinc-700 rounded-2xl text-sm font-bold flex items-center justify-center gap-2 transition ring-2 ring-emerald-500 text-white";
+        abaH.querySelector('i').classList.add('text-emerald-400');
+        abaM.className = "py-3 bg-zinc-900 hover:bg-zinc-800 rounded-2xl text-sm font-bold flex items-center justify-center gap-2 transition text-zinc-400 border border-zinc-800";
+        abaM.querySelector('i').classList.remove('text-emerald-400');
+      } else {
+        abaM.className = "py-3 bg-zinc-800 hover:bg-zinc-700 rounded-2xl text-sm font-bold flex items-center justify-center gap-2 transition ring-2 ring-emerald-500 text-white";
+        abaM.querySelector('i').classList.add('text-emerald-400');
+        abaH.className = "py-3 bg-zinc-900 hover:bg-zinc-800 rounded-2xl text-sm font-bold flex items-center justify-center gap-2 transition text-zinc-400 border border-zinc-800";
+        abaH.querySelector('i').classList.remove('text-emerald-400');
+      }
+      renderizarListaTreinos();
+    }
+
+    function renderizarListaTreinos() {
+      const container = document.getElementById('lista-treinos');
+      container.innerHTML = '';
+      const treinos = treinosData[nivelAtual] && treinosData[nivelAtual][generoAtual] ? treinosData[nivelAtual][generoAtual] : [];
+      
+      treinos.forEach(t => {
+        const card = document.createElement('div');
+        card.className = 'bg-zinc-900 rounded-3xl p-5 card-hover cursor-pointer border border-zinc-800 flex items-center justify-between relative overflow-hidden group';
+        card.innerHTML = `
+          <div class="relative z-10">
+            <h3 class="text-lg font-bold text-white group-hover:text-emerald-400 transition-colors">${t.nome}</h3>
+            <p class="text-zinc-400 text-xs mt-1"><i class="fa-regular fa-clock mr-1"></i> ${t.duracao} • ${t.exercicios.length} exercícios</p>
+          </div>
+          <div class="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center relative z-10 group-hover:scale-110 transition-transform">
+            <i class="fa-solid fa-play ml-1"></i>
+          </div>
+          <div class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-emerald-600/10 to-transparent"></div>
+        `;
+        card.onclick = () => iniciarTreino(t);
+        container.appendChild(card);
+      });
+      
+      if (treinos.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-10 bg-zinc-900/50 rounded-3xl border border-zinc-800 border-dashed">
+            <i class="fa-solid fa-person-digging text-3xl text-zinc-600 mb-3"></i>
+            <p class="text-zinc-500 font-medium">Novos treinos chegando em breve...</p>
+          </div>`;
+      }
+    }
+
+    // ====================== MEDIDAS ======================
+    window.salvarMedida = function() { 
+      const peso = document.getElementById('input-peso').value;
+      const braco = document.getElementById('input-braco').value;
+      const peito = document.getElementById('input-peito').value;
+      const cintura = document.getElementById('input-cintura').value;
+      const perna = document.getElementById('input-perna').value;
+
+      if(!peso) return showToast("Pelo menos o peso é obrigatório", "error");
+
+      const novaMedida = {
+        data: new Date().toLocaleDateString('pt-BR'),
+        peso, braco, peito, cintura, perna
+      };
+
+      historicoMedidas.unshift(novaMedida);
+      localStorage.setItem('historicoMedidas', JSON.stringify(historicoMedidas));
+      
+      ['peso','braco','peito','cintura','perna'].forEach(id => document.getElementById(`input-${id}`).value = '');
+      
+      showToast("Medidas salvas com sucesso!");
+      renderizarHistoricoMedidas();
+    }
+
+    function renderizarHistoricoMedidas() {
+      const container = document.getElementById('historico-medidas');
+      const somadorContainer = document.getElementById('somador-medidas');
+
+      if(historicoMedidas.length === 0) {
+        container.innerHTML = `<p class="text-zinc-500 text-sm text-center py-4">Nenhum registro ainda.</p>`;
+        somadorContainer.innerHTML = `<p class="text-zinc-500 text-sm col-span-4 py-2">Sem dados para calcular</p>`;
+        return;
+      }
+
+      let sumBraco = 0, sumPeito = 0, sumCint = 0, sumCoxa = 0;
+      historicoMedidas.forEach(m => {
+        sumBraco += parseFloat(m.braco) || 0;
+        sumPeito += parseFloat(m.peito) || 0;
+        sumCint += parseFloat(m.cintura) || 0;
+        sumCoxa += parseFloat(m.perna) || 0;
+      });
+
+      somadorContainer.innerHTML = `
+        <div><p class="font-bold text-white text-lg">${sumBraco.toFixed(1)}</p><p class="text-[10px] text-zinc-500 uppercase tracking-wider mt-1">Braço</p></div>
+        <div><p class="font-bold text-white text-lg">${sumPeito.toFixed(1)}</p><p class="text-[10px] text-zinc-500 uppercase tracking-wider mt-1">Peito</p></div>
+        <div><p class="font-bold text-white text-lg">${sumCint.toFixed(1)}</p><p class="text-[10px] text-zinc-500 uppercase tracking-wider mt-1">Cint</p></div>
+        <div><p class="font-bold text-white text-lg">${sumCoxa.toFixed(1)}</p><p class="text-[10px] text-zinc-500 uppercase tracking-wider mt-1">Coxa</p></div>
+      `;
+
+      container.innerHTML = historicoMedidas.map(m => `
+        <div class="bg-zinc-900 p-4 rounded-2xl border border-zinc-800">
+          <div class="flex justify-between items-center mb-2 border-b border-zinc-800 pb-2">
+            <span class="font-bold text-emerald-400"><i class="fa-regular fa-calendar mr-1"></i> ${m.data}</span>
+            <span class="font-bold text-white bg-zinc-800 px-3 py-1 rounded-lg">${m.peso} kg</span>
+          </div>
+          <div class="grid grid-cols-4 gap-2 text-center text-xs text-zinc-400">
+            <div><p class="font-semibold text-zinc-300">${m.braco || '--'}</p> Braço</div>
+            <div><p class="font-semibold text-zinc-300">${m.peito || '--'}</p> Peito</div>
+            <div><p class="font-semibold text-zinc-300">${m.cintura || '--'}</p> Cint.</div>
+            <div><p class="font-semibold text-zinc-300">${m.perna || '--'}</p> Coxa</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ====================== PROGRESSO (GAMIFICAÇÃO) ======================
+    function renderizarProgresso() { 
+      const treinosFeitos = historicoTreinos.length;
+      document.getElementById('contagem-treinos').textContent = treinosFeitos; 
+      
+      const diasConsecutivos = streakData.count;
+      document.getElementById('dias-consecutivos-stats').textContent = diasConsecutivos;
+
+      const level = Math.floor(diasConsecutivos / 30) + 1;
+      const diasNoLevel = diasConsecutivos % 30;
+      const pct = (diasNoLevel / 30) * 100;
+
+      const titulos = ["Iniciante", "Praticante", "Atleta Amador", "Monstro", "Lenda EVO"];
+      const tituloAtual = titulos[Math.min(level - 1, titulos.length - 1)];
+
+      document.getElementById('nivel-atleta').textContent = `Nível ${level} - ${tituloAtual}`;
+      document.getElementById('xp-bar').style.width = `${pct}%`;
+      document.getElementById('xp-texto').textContent = `${diasNoLevel}/30 dias consecutivos para o Nível ${level + 1}`;
+      
+      const medalhaImg = document.getElementById('medalha-nivel');
+      medalhaImg.src = `medalha/nivel_${level}.png`;
+      medalhaImg.style.display = 'block';
+      medalhaImg.nextElementSibling.style.display = 'none';
+    }
+
+    // ====================== RESET ======================
+    window.mostrarModalReset = function() { document.getElementById('modal-reset').classList.remove('hidden'); }
+    window.cancelarReset = function() { document.getElementById('modal-reset').classList.add('hidden'); }
+    window.confirmarReset = async function() {
+      // Como o painel cria as contas, aqui o usuário apaga localmente os próprios dados, mas mantém o login na base.
+      localStorage.removeItem('historicoTreinos');
+      localStorage.removeItem('profilePhoto');
+      localStorage.removeItem('streakData');
+      localStorage.removeItem('historicoMedidas');
+      location.reload();
+    }
+
+    // ====================== INICIALIZAÇÃO ======================
+    document.addEventListener('DOMContentLoaded', async () => {
+      lucide.createIcons();
+      
+      if (usuario) {
+        // Validação online das configurações do cliente
+        DB.getClienteByEmail(usuario.email).then(cliente => {
+          if (cliente) {
+            if (cliente.status === 'bloqueado') {
+              sair();
+              showToast("Seu acesso está bloqueado. Contate a recepção.", "error");
+              return;
+            }
+            usuario.nivel = cliente.nivel !== undefined ? cliente.nivel : 0;
+            usuario.genero = cliente.genero !== undefined ? cliente.genero : 0;
+            usuario.pagamento = cliente.pagamento || 'pago';
+            localStorage.setItem('usuario', JSON.stringify(usuario));
+
+            if (usuario.pagamento === 'pendente') {
+              document.getElementById('banner-pagamento').classList.remove('hidden');
+            } else {
+              document.getElementById('banner-pagamento').classList.add('hidden');
+            }
+
+            nivelAtual = usuario.nivel;
+            generoAtual = usuario.genero;
+            
+            if(!document.getElementById('pagina-treinos').classList.contains('hidden')){
+                renderizarListaTreinos(); 
+            }
+          }
+        });
+
+        document.getElementById('login-modal').classList.add('hidden');
+        document.getElementById('nav-principal').classList.remove('hidden');
+        document.getElementById('nome-usuario').textContent = usuario.nome.split(' ')[0];
+        document.getElementById('nome-perfil').textContent = usuario.nome;
+        document.getElementById('email-perfil').textContent = usuario.email;
+        atualizarFotoPerfil();
+        
+        nivelAtual = usuario.nivel !== undefined ? usuario.nivel : 0;
+        generoAtual = usuario.genero !== undefined ? usuario.genero : 0;
+        window.mostrarPagina('home');
+
+        if (usuario.pagamento === 'pendente') {
+          document.getElementById('banner-pagamento').classList.remove('hidden');
+        }
+
+      } else {
+        document.getElementById('login-modal').classList.remove('hidden');
+      }
+
+      initWaterTracker();
+      atualizarDicaDoDia();
+      dicaInterval = setInterval(atualizarDicaDoDia, 300000); 
+      
+      document.getElementById('streak-count').textContent = streakData.count;
+
+      setTimeout(() => {
+        const treinadoHoje = historicoTreinos.some(t => t.data === new Date().toLocaleDateString('pt-BR'));
+        if (usuario && !treinadoHoje) {
+          showToast("Não esqueça do seu treino hoje! 💪", "info");
+        }
+      }, 5000);
+      
+      // Sincronização de treinos customizados via Firebase
+      try {
+        const dbTreinos = await DB.getTreinosGlobais();
+        if (dbTreinos && Object.keys(dbTreinos).length > 0) {
+          treinosData = dbTreinos;
+        }
+      } catch (e) {}
+    });
+  </script>
+</body>
+</html>
